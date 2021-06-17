@@ -1,8 +1,8 @@
 module.exports = {
-    HOST: "",
-    USER: "",
-    PASSWORD: "",
-    DB: "",
+    HOST: "remotemysql.com",
+    USER: "Snlv00g6PM",
+    PASSWORD: "PEmLoFCpWZ",
+    DB: "Snlv00g6PM",
     dialect: "mysql",
     pool:{
         max: 500, //max number of connections

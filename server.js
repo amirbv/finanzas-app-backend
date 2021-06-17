@@ -1,4 +1,6 @@
+require('dotenv').config();
 const express = require('express');
+const bodyParser = require("body-parser");
 const cors = require('cors');
 
 const app = express();
@@ -12,14 +14,10 @@ db.sequelize.sync({force: true}).then(()=>{
 */
 
 db.sequelize.sync();
-
-
-var corsOptions = {
-    origin: "http://localhost:8080"
-};
+app.use(cors());
 
 //Parse request of content-type to application/json
-app.use(cors(corsOptions));
+app.use(express.json());
 
 //Parse request of content-type to application/x-www-form-urlencode
 app.use(express.urlencoded({extended: true}));
