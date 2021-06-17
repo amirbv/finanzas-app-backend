@@ -1,8 +1,8 @@
 module.exports = {
-    HOST: "remotemysql.com",
-    USER: "Snlv00g6PM",
-    PASSWORD: "PEmLoFCpWZ",
-    DB: "Snlv00g6PM",
+    HOST: process.env.DB_HOST,
+    USER: process.env.DB_USER,
+    PASSWORD: process.env.DB_PASS,
+    DB: process.env.DB_NAME,
     dialect: "mysql",
     pool:{
         max: 500, //max number of connections

@@ -14,7 +14,11 @@ db.sequelize.sync({force: true}).then(()=>{
 */
 
 db.sequelize.sync();
-app.use(cors());
+var corsOptions = {
+    origin: "http://localhost:8081"
+  };
+
+app.use(cors(corsOptions));
 
 //Parse request of content-type to application/json
 app.use(express.json());
