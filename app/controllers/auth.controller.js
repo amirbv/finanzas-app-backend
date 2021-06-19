@@ -35,7 +35,7 @@ exports.signup = (req, res) => {
 exports.signin = (req, res) => {
   Users.findOne({
     where: {
-      correo: req.body.email
+      email: req.body.email
     }
   })
     .then(user => {

@@ -1,23 +1,23 @@
 module.exports = (sequelize,Sequelize) =>{
-    const Usuarios = sequelize.define("usuarios", {
-        IDUsuarios:{
+    const Users = sequelize.define("usuarios", {
+        IDUsers:{
             type: Sequelize.INTEGER(13),
             primaryKey: true,
             autoIncrement: true
         },
-        nombreCompleto:{
+        fullName:{
             type: Sequelize.STRING
         },
-        correo:{
+        email:{
             type: Sequelize.STRING
         },
-        clave:{
+        password:{
             type: Sequelize.STRING
         },
-        ciudad:{
+        city:{
             type: Sequelize.BOOLEAN
         },
-        estadoIDestados:{
+        IDStates:{
             type: Sequelize.INTEGER,
             primaryKey: true
         },
@@ -29,7 +29,7 @@ module.exports = (sequelize,Sequelize) =>{
             type: Sequelize.DATE,
             defaultValue: Sequelize.NOW
         },
-        roleIDRoles:{
+        IDRoles:{
             type: Sequelize.INTEGER,
             primaryKey: true,
             defaultValue: 1
@@ -37,5 +37,5 @@ module.exports = (sequelize,Sequelize) =>{
 
     });
 
-    return Usuarios;
+    return Users;
 };

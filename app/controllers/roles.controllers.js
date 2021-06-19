@@ -3,7 +3,7 @@ const Roles = db.role;
 
 exports.createRole = (roles) => {
     return Roles.create({
-      nombre: roles.nombre
+      name: roles.name
     })
       .then((roles) => {
         console.log(">> Rol creado: " + JSON.stringify(roles, null, 4));

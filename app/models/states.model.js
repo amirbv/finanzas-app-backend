@@ -1,14 +1,14 @@
 module.exports = (sequelize, Sequelize) => {
-    const Estados = sequelize.define("estados", {
-    IDestados:{
+    const States = sequelize.define("states", {
+    IDStates:{
         type: Sequelize.INTEGER(13),
         allowNull: false,
         primaryKey: true,
     },
-      nombre: {
+      name: {
         type: Sequelize.STRING
       }
     });
   
-    return Estados;
+    return States;
   };

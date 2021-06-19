@@ -2,7 +2,7 @@ const db = require("../models");
 const States = db.state;
 const Users = db.user;
 
-exports.createEstado = (states) => {
+exports.createState = (states) => {
     return States.create({
       name: states.name
     })
