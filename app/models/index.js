@@ -26,21 +26,21 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.user = require("../models/usuarios.model.js")(sequelize, Sequelize);
+db.user = require("../models/users.model.js")(sequelize, Sequelize);
 db.role = require("../models/roles.model.js")(sequelize, Sequelize);
-db.state = require("../models/estados.model.js")(sequelize, Sequelize);
+db.state = require("../models/states.model.js")(sequelize, Sequelize);
 
-db.role.hasMany(db.user,{ as: "usuarios"});
-db.state.hasMany(db.user, {as: "usuarios"});
+db.role.hasMany(db.user,{ as: "users"});
+db.state.hasMany(db.user, {as: "users"});
 
 db.user.belongsTo(db.role, {
-    foreignKey: "roleIDRoles",
+    foreignKey: "IDRoles",
     as: "roles"
 });
 
 db.user.belongsTo(db.state, {
-    foreignKey: "estadoIDestados",
-    as: "estados" 
+    foreignKey: "IDStates",
+    as: "states" 
 });
 
 module.exports = db;

@@ -1,6 +1,6 @@
 const db = require("../models");
 const config = require("../config/auth.config");
-const Usuarios = db.user;
+const Users = db.user;
 const Roles = db.role;
 
 var jwt = require("jsonwebtoken");
@@ -8,17 +8,17 @@ var bcrypt = require("bcryptjs");
 
 exports.signup = (req, res) => {
   // Save User to Database
-  Usuarios.create({
-    nombreCompleto: req.body.nombreCompleto,
-    correo: req.body.correo,
-    clave: bcrypt.hashSync(req.body.clave, 8),
-    ciudad: req.body.ciudad,
-    estadoIDestados: req.body.estadoIDestados
+  Users.create({
+    fullName: req.body.fullName,
+    email: req.body.email,
+    password: bcrypt.hashSync(req.body.password, 8),
+    city: req.body.city,
+    IDStates: req.body.IDStares
   })
     .then(user => {
-      if (user.roleIDRoles) {
+      if (user.IDRoles) {
         Roles.findAll({
-          where: {IDRoles: user.roleIDRoles}
+          where: {IDRoles: user.IDRoles}
         }).then(roles => {
           user.setRoles(roles).then(() => {
             res.send({ message: "Usuario registrado con exito!" });
@@ -33,9 +33,9 @@ exports.signup = (req, res) => {
 
 
 exports.signin = (req, res) => {
-  Usuarios.findOne({
+  Users.findOne({
     where: {
-      correo: req.body.correo
+      correo: req.body.email
     }
   })
     .then(user => {
@@ -44,8 +44,8 @@ exports.signin = (req, res) => {
       }
 
       var passwordIsValid = bcrypt.compareSync(
-        req.body.clave,
-        user.clave
+        req.body.password,
+        user.password
       );
 
       if (!passwordIsValid) {
@@ -55,13 +55,13 @@ exports.signin = (req, res) => {
         });
       }
 
-      var token = jwt.sign({ id: user.IDUsuarios }, config.secret, {
+      var token = jwt.sign({ id: user.IDUsers }, config.secret, {
         expiresIn: 86400 // 24 hours
       });
 
       res.status(200).send({
-        correo: user.correo,
-        rolesID: user.roleIDRoles,
+        email: user.email,
+        rolesID: user.IDRoles,
         accessToken: token
       });
     })
