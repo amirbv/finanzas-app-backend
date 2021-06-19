@@ -23,10 +23,12 @@ exports.signup = (req, res) => {
           var token = jwt.sign({ id: user.IDUsers }, config.secret, {
           expiresIn: 86400 // 24 hours
         });
-        res.send({ 
+        res.send({
           id: user.IDUsers,
           email: user.email,
-          accessToken: token });
+          roleIDRoles: user.roleIDRoles,
+          accessToken: token
+        });
       });
             
 
@@ -66,6 +68,7 @@ exports.signin = (req, res) => {
       });
 
       res.status(200).send({
+        id: user.IDUsers,
         email: user.email,
         roleIDRoles: user.roleIDRoles,
         accessToken: token
