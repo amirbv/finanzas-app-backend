@@ -16,8 +16,8 @@ exports.createState = (states) => {
   };
 
 //Get the states for a given User
-exports.findUsuarioById = (IDUSers) => {
-    return Users.findByPk(IDUSers, { include: {all:true} })
+exports.findUsuarioById = (IDUers) => {
+    return Users.findByPk(IDUsers, { include: {all:true} })
       .then((IDUsers) => {
         return IDUsers;
       })
