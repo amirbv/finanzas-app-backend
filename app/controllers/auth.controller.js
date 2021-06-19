@@ -13,17 +13,23 @@ exports.signup = (req, res) => {
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8),
     city: req.body.city,
-    IDStates: req.body.IDStares
+    stateIDStates: req.body.stateIDStates
   })
     .then(user => {
-      if (user.IDRoles) {
+      if (user.roleIDRoles) {
         Roles.findAll({
-          where: {IDRoles: user.IDRoles}
-        }).then(roles => {
-          user.setRoles(roles).then(() => {
-            res.send({ message: "Usuario registrado con exito!" });
-          });
+          where: {IDRoles: user.roleIDRoles}
+        }).then(() =>{
+          var token = jwt.sign({ id: user.IDUsers }, config.secret, {
+          expiresIn: 86400 // 24 hours
         });
+        res.send({ 
+          id: user.IDUsers,
+          email: user.email,
+          accessToken: token });
+      });
+            
+
       }
     })
     .catch(err => {
@@ -61,7 +67,7 @@ exports.signin = (req, res) => {
 
       res.status(200).send({
         email: user.email,
-        rolesID: user.IDRoles,
+        roleIDRoles: user.roleIDRoles,
         accessToken: token
       });
     })

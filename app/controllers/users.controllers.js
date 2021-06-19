@@ -7,10 +7,10 @@ exports.createUser = (users) => {
         fullName: users.fullName,
         email: users.email,
         password: users.password,
-        citty: users.city,
-        IDStates: users.IDStates,
+        city: users.city,
+        stateIDStates: users.stateIDStates,
         isBlocked: users.isBlocked,
-        IDRoles: users.IDRoles
+        roleIDRoles: users.roleIDRoles
     })
       .then((users) => {
         console.log(">> Usuario creado: " + JSON.stringify(users, null, 4));

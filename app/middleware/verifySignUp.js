@@ -20,10 +20,10 @@ checkDuplicateEmail = (req, res, next) => {
 };
 
 checkRolesExisted = (req, res, next) => {
-  if (user.IDRoles) {
-      if (!user.IDRoles) {
+  if (user.roleIDRoles) {
+      if (!user.roleIDRoles) {
         res.status(400).send({
-          message: "Error! El rol no existe = " + user.IDRoles
+          message: "Error! El rol no existe = " + user.roleIDRoles
         });
         return;
       }

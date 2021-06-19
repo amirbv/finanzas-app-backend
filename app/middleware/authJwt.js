@@ -29,7 +29,7 @@ verifyToken = (req, res, next) => {
   
   isAdmin = (req, res, next) => {
     Users.findByPk(req.IDUsers).then(user => {
-          if (user.IDRoles === 2) {
+          if (user.roleIDRoles === 2) {
             next();
             return;
         }

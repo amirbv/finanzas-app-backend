@@ -1,5 +1,5 @@
 module.exports = (sequelize,Sequelize) =>{
-    const Users = sequelize.define("usuarios", {
+    const Users = sequelize.define("users", {
         IDUsers:{
             type: Sequelize.INTEGER(13),
             primaryKey: true,
@@ -15,9 +15,9 @@ module.exports = (sequelize,Sequelize) =>{
             type: Sequelize.STRING
         },
         city:{
-            type: Sequelize.BOOLEAN
+            type: Sequelize.STRING
         },
-        IDStates:{
+        stateIDStates:{
             type: Sequelize.INTEGER,
             primaryKey: true
         },
@@ -29,7 +29,7 @@ module.exports = (sequelize,Sequelize) =>{
             type: Sequelize.DATE,
             defaultValue: Sequelize.NOW
         },
-        IDRoles:{
+        roleIDRoles:{
             type: Sequelize.INTEGER,
             primaryKey: true,
             defaultValue: 1
