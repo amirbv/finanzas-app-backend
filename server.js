@@ -15,7 +15,7 @@ db.sequelize.sync({force: true}).then(()=>{
 db.sequelize.sync();
 
 var corsOptions = {
-    origin: "remotemysql.com"
+    origin: "*"
   };
 
 app.use(cors(corsOptions));
