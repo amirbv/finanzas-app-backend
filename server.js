@@ -1,6 +1,5 @@
 require('dotenv').config();
 const express = require('express');
-const bodyParser = require("body-parser");
 const cors = require('cors');
 
 const app = express();
@@ -14,8 +13,9 @@ db.sequelize.sync({force: true}).then(()=>{
 */
 
 db.sequelize.sync();
+
 var corsOptions = {
-    origin: "http://localhost:8081"
+    origin: "remotemysql.com"
   };
 
 app.use(cors(corsOptions));
@@ -31,7 +31,10 @@ app.get("/", (req, res)=>{
     res.json({message:"Welcome to the application"});
 });
 
-require("./app/routes/tutorials.routes");
+// routes
+require('./app/routes/auth.routes')(app);
+require('./app/routes/users/usuarios.routes')(app);
+require('./app/routes/admin/admin.routes')(app);
 
 //Set port, listen for request
 const PORT = process.env.PORT || 8080;
