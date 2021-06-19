@@ -24,9 +24,7 @@ exports.signup = (req, res) => {
           expiresIn: 86400 // 24 hours
         });
         res.send({
-          id: user.IDUsers,
           email: user.email,
-          roleIDRoles: user.roleIDRoles,
           accessToken: token
         });
       });
@@ -68,9 +66,7 @@ exports.signin = (req, res) => {
       });
 
       res.status(200).send({
-        id: user.IDUsers,
         email: user.email,
-        roleIDRoles: user.roleIDRoles,
         accessToken: token
       });
     })
