@@ -11,6 +11,7 @@ verifyToken = (req, res, next) => {
         message: "No posee un token!"
       });
     }
+    
     try {
         jwt.verify(token, config.secret, (err, decoded) => {
             if (err) {
