@@ -10,29 +10,18 @@ module.exports = function(app) {
     next();
   });
 
-
-  app.get(
-    "/api/test/admin",
-    [authJwt.verifyToken, authJwt.isAdmin],
-    controller.adminBoard
-  ); 
-
+  //Retrieve all users
   app.get(
     "/api/users/",
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.findAllUsers
   );
 
+  //Retrive one user
   app.get(
     "/api/users/:id",
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.findOneUser
-  );
-
-  app.put(
-    "/api/users/update/:id",
-    [authJwt.verifyToken],
-    controller.updateUser
   );
 
 };

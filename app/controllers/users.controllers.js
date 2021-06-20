@@ -85,6 +85,29 @@ const States = db.state;
     });
   };
 
+  exports.deleteUser = (req, res) => {
+    const IDUser = req.params.id;
+
+    Users.destroy({
+      where: {IDUsers:IDUser}
+    }).then(result => {
+      if (result == 1) {
+        res.send({
+          message: "Usuario borrado exitosamente."
+        });
+      } else {
+        res.send({
+          message: `No se pudo borrar id=${id}. Quizas no existe.`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err
+      });
+    });
+  };
+
   let show = [
     "fullName",
     "email",

@@ -8,14 +8,14 @@ verifyToken = (req, res, next) => {
   
     if (!token) {
       return res.status(403).send({
-        message: "No token provided!"
+        message: "No posee un token!"
       });
     }
     try {
         jwt.verify(token, config.secret, (err, decoded) => {
             if (err) {
               return res.status(401).send({
-                message: "Unauthorized!"
+                message: "Sin autorizacion!"
               });
             }
             
@@ -27,6 +27,7 @@ verifyToken = (req, res, next) => {
     }
   };
   
+  //
   isAdmin = (req, res, next) => {
     Users.findByPk(req.IDUsers).then(user => {
           if (user.roleIDRoles === 2) {
@@ -35,7 +36,7 @@ verifyToken = (req, res, next) => {
         }
   
         res.status(403).send({
-          message: "Require Admin Role!"
+          message: "Requiere ser administrador!"
         });
         return;
     });  

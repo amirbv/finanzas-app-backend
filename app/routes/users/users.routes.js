@@ -9,24 +9,25 @@ module.exports = function(app) {
     );
     next();
   });
-
-  app.get("/api/test/all", controller.allAccess);
-
-  app.get(
-    "/api/test/user",
-    [authJwt.verifyToken],
-    controller.userBoard
-  );
   
+  //Retrieve a user
   app.get(
     "/api/users/:id",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken],
     controller.findOneUser
   );
 
+  //Update a User
   app.put(
     "/api/users/update/:id",
     [authJwt.verifyToken],
     controller.updateUser
+  );
+
+  //Delete a user
+  app.delete(
+    "/api/users/delete/:id",
+    [authJwt.verifyToken],
+    controller.deleteUser
   );
 };
