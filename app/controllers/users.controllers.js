@@ -1,5 +1,7 @@
 const db = require("../models");
 const Users = db.user;
+const Roles = db.role;
+const States = db.state;
 
 //Create and save new Users
 exports.createUser = (users) => {
@@ -42,4 +44,33 @@ exports.findUserById = (IDUsers) => {
   
   exports.adminBoard = (req, res) => {
     res.status(200).send("Admin Content.");
+  };
+
+  exports.findAllUsers = (req, res) => {
+    Users.findAll({
+        attributes: [
+          "fullName",
+          "email",
+          "city",
+          "createdAt",
+          "isBlocked"
+        ],
+        include: [
+          {
+            model: States,
+            as: "State"
+          },
+          
+          {
+            model: Roles,
+            as: "Role"
+          }
+        ]
+    }).then(data => {
+      res.status(200).send(data);
+    }).catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Ocurrio un error al mostrar los usuarios"});
+    });
   };
