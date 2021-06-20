@@ -37,7 +37,6 @@ exports.signup = (req, res) => {
     });
 };
 
-
 exports.signin = (req, res) => {
   Users.findOne({
     where: {

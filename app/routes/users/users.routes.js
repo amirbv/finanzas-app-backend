@@ -18,4 +18,15 @@ module.exports = function(app) {
     controller.userBoard
   );
   
+  app.get(
+    "/api/users/:id",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.findOneUser
+  );
+
+  app.put(
+    "/api/users/update/:id",
+    [authJwt.verifyToken],
+    controller.updateUser
+  );
 };

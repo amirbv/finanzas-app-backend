@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs');
+
 module.exports = (sequelize,Sequelize) =>{
     const Users = sequelize.define("users", {
         IDUsers:{
@@ -37,5 +39,9 @@ module.exports = (sequelize,Sequelize) =>{
 
     });
 
+    Users.beforeBulkUpdate(({attributes: attributes}) => {
+        attributes.password = bcrypt.hashSync(attributes.password, 8);
+    });
+      
     return Users;
 };

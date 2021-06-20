@@ -4,7 +4,7 @@ const Roles = db.role;
 const States = db.state;
 
 //Create and save new Users
-exports.createUser = (users) => {
+  exports.createUser = (users) => {
     return Users.create({
         fullName: users.fullName,
         email: users.email,
@@ -23,17 +23,6 @@ exports.createUser = (users) => {
       });
   };
 
-//Get the states for a given User
-exports.findUserById = (IDUsers) => {
-    return Users.findByPk(IDUsers, { include: {all:true} })
-      .then((IDUsers) => {
-        return IDUsers;
-      })
-      .catch((err) => {
-        console.log(">> Error mientras se encontraban usuarios: ", err);
-      });
-  };
-
   exports.allAccess = (req, res) => {
     res.status(200).send("Public Content.");
   };
@@ -47,26 +36,7 @@ exports.findUserById = (IDUsers) => {
   };
 
   exports.findAllUsers = (req, res) => {
-    Users.findAll({
-        attributes: [
-          "fullName",
-          "email",
-          "city",
-          "createdAt",
-          "isBlocked"
-        ],
-        include: [
-          {
-            model: States,
-            as: "State"
-          },
-          
-          {
-            model: Roles,
-            as: "Role"
-          }
-        ]
-    }).then(data => {
+    Users.findAll({attributes: show, include: requierements}).then(data => {
       res.status(200).send(data);
     }).catch(err => {
       res.status(500).send({
@@ -74,3 +44,63 @@ exports.findUserById = (IDUsers) => {
           err.message || "Ocurrio un error al mostrar los usuarios"});
     });
   };
+
+  exports.findOneUser = (req, res) => {
+  const IDUser = req.params.id;
+
+    Users.findByPk(IDUser, {attributes: show, include: requierements})
+      .then((data) => {
+        if(data){
+          res.status(200).send(data);
+        }else{
+          res.send({message: "Usuario no encontrado"});
+        }
+      }).catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Ocurrio un error al mostrar el usuario"});
+      });
+  };
+
+  exports.updateUser = (req, res) => {
+    const IDUser = req.params.id;
+
+    Users.update(req.body, {
+      where: {IDUsers:IDUser}
+    }).then(result => {
+      if (result == 1) {
+        res.send({
+          message: "Usuario actualizado."
+        });
+      } else {
+        res.send({
+          message: `No se pudo actualizar id=${id}. Quizas no existe o el req.body esta vacio`
+        });
+      }
+    })
+    .catch(err => {
+      res.status(500).send({
+        message: err
+      });
+    });
+  };
+
+  let show = [
+    "fullName",
+    "email",
+    "city",
+    "createdAt",
+    "isBlocked"
+  ];
+
+  let requierements = [
+    {
+      model: States,
+      as: "State"
+    },
+        
+    {
+      model: Roles,
+      as: "Role"
+    }
+  ];
