@@ -4,7 +4,11 @@
 
 "api/auth/signup" : { fullName, email, password, city, stateIDStates }
 
+## INICIO DE SESION USUARIO COMUN
 "/api/auth/signin" : { email, password }
+
+## INICIO DE SESION USUARIO ADMINISTRADOR
+"/api/auth/signin/admin" : { email, password }
 
 "/api/users/:id" : { req.params.id }
 

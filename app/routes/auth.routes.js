@@ -20,6 +20,15 @@ module.exports = function(app) {
     controller.signup
   );
 
-  //Signin a user
+  //Signin a User
   app.post("/api/auth/signin", controller.signin);
+
+  //Signin a Admin
+  app.post("/api/auth/signin/admin",
+  [
+    authJwt.verifyToken,
+    authJwt.isAdmin
+  ],
+  controller.signin
+  );
 };
