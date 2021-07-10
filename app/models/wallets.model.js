@@ -1,6 +1,6 @@
 module.exports = (sequelize,Sequelize) =>{
-    const Banks = sequelize.define("banks", {
-        IDBank:{
+    const Wallets = sequelize.define("wallets", {
+        IDWallets:{
             type: Sequelize.INTEGER(13),
             primaryKey: true,
             autoIncrement: true
@@ -8,22 +8,26 @@ module.exports = (sequelize,Sequelize) =>{
         name:{
             type: Sequelize.STRING
         },
-        shortName:{
+        description:{
             type: Sequelize.STRING
         },
-        photoURL:{
-            type: Sequelize.STRING
+        amount:{
+            type: Sequelize.FLOAT(10,2)
         },
-        currencyTypeIDCurrencyType:{
+        isActive:{
+            type: Sequelize.BOOLEAN,
+            defaultValue: 1
+        },
+        bankIDBank:{
             type: Sequelize.INTEGER,
             primaryKey: true
         },
-        countryIDCountries:{
+        userIDUsers:{
             type: Sequelize.INTEGER,
-            primaryKey: true,
+            primaryKey: true
         }
 
     });
-
-    return Banks;
+      
+    return Wallets;
 };

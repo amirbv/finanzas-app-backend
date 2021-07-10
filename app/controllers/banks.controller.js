@@ -9,7 +9,7 @@ const Countries = db.countries;
         name: banks.name,
         shortName: banks.shortName,
         photoURL: banks.photoURL,
-        currencyTypeIDCurrencyTypes: banks.currencyTypeIDCurrencyTypes,
+        currencyTypeIDCurrencyType: banks.currencyTypeIDCurrencyType,
         countriesIDCountries: banks.countriesIDCountries
     })
       .then((banks) => {
@@ -41,7 +41,7 @@ const Countries = db.countries;
   let requierements = [
     {
       model: CurrencyTypes,
-      as: "CurrencyTypes"
+      as: "CurrencyType"
     },
         
     {

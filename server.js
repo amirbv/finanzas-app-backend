@@ -40,6 +40,7 @@ require('./app/routes/roles/roles.routes')(app);
 require('./app/routes/currencyType/currencyType.routes')(app);
 require('./app/routes/countries/countries.routes')(app);
 require('./app/routes/banks/banks.routes')(app);
+require('./app/routes/wallets/wallets.routes')(app);
 
 //Set port, listen for request
 const PORT = process.env.PORT || 8080;
