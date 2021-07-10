@@ -7,9 +7,20 @@ exports.createRole = (roles) => {
     })
       .then((roles) => {
         console.log(">> Rol creado: " + JSON.stringify(roles, null, 4));
-        return tutorial;
+        return roles;
       })
       .catch((err) => {
         console.log(">> Error mientras se creaba el rol: ", err);
       });
-  };
+};
+
+//Get the roles
+exports.findAllRoles = (req, res) => {
+  Roles.findAll().then(data => {
+    res.status(200).send(data);
+  }).catch(err => {
+    res.status(500).send({
+      message:
+        err.message || "Ocurrio un error al mostrar los roles"});
+  });
+};

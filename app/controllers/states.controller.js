@@ -1,6 +1,5 @@
 const db = require("../models");
 const States = db.state;
-const Users = db.user;
 
 exports.createState = (states) => {
     return States.create({
@@ -15,13 +14,13 @@ exports.createState = (states) => {
       });
   };
 
-//Get the states for a given User
-exports.findUserById = (IDUers) => {
-    return Users.findByPk(IDUsers, { include: {all:true} })
-      .then((IDUsers) => {
-        return IDUsers;
-      })
-      .catch((err) => {
-        console.log(">> Error mientras se buscaba el estado: ", err);
-      });
-  };
+//Get the states
+exports.findAllStates = (req, res) => {
+  States.findAll().then(data => {
+    res.status(200).send(data);
+  }).catch(err => {
+    res.status(500).send({
+      message:
+        err.message || "Ocurrio un error al mostrar los estados"});
+  });
+};

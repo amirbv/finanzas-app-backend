@@ -3,6 +3,11 @@
 ## RUTAS DISPONIBLES PARA USUARIOS Y ADMINISTRADORES
 
 "api/auth/signup" : { fullName, email, password, city, stateIDStates }
+"api/states": { devuelve: IDStates, name }
+"api/roles": { devuelve: IDRoles, name }
+"api/currencies": { devuelve: IDCurrencyType, name, symbol, letterSymbol }
+"api/countries": { devuelve: IDCountries, shortName, name }
+"api/banks": {devuelve: IDBank, name, shortName, photoURL, CurrencyTypes:{ IDCurrencyType, name, symbol, letterSymbol }, Countries:{ IDCountries, shortName, name }}
 
 ## INICIO DE SESION USUARIO COMUN
 "/api/auth/signin" : { email, password }

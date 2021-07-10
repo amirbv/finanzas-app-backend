@@ -30,8 +30,15 @@ db.user = require("../models/users.model.js")(sequelize, Sequelize);
 db.role = require("../models/roles.model.js")(sequelize, Sequelize);
 db.state = require("../models/states.model.js")(sequelize, Sequelize);
 
+db.banks = require("../models/banks.model.js")(sequelize, Sequelize);
+db.currencyType = require("../models/currencyTypes.model.js")(sequelize, Sequelize);
+db.countries = require("../models/countries.model.js")(sequelize,Sequelize);
+
 db.role.hasMany(db.user,{ as: "users"});
 db.state.hasMany(db.user, {as: "users"});
+
+db.currencyType.hasMany(db.banks, {as: "banks"});
+db.countries.hasMany(db.banks, {as: "banks"});
 
 db.user.belongsTo(db.role, {
     foreignKey: "roleIDRoles",
@@ -41,6 +48,16 @@ db.user.belongsTo(db.role, {
 db.user.belongsTo(db.state, {
     foreignKey: "stateIDStates",
     as: "State"
+});
+
+db.banks.belongsTo(db.currencyType,{
+    foreignKey: "currencyTypeIDCurrencyTypes",
+    as: "CurrencyTypes"
+});
+
+db.banks.belongsTo(db.countries,{
+    foreignKey: "countriesIDCountries",
+    as: "Countries"
 });
 
 module.exports = db;

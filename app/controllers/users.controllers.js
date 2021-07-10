@@ -23,18 +23,6 @@ const States = db.state;
       });
   };
 
-  exports.allAccess = (req, res) => {
-    res.status(200).send("Public Content.");
-  };
-  
-  exports.userBoard = (req, res) => {
-    res.status(200).send("User Content.");
-  };
-  
-  exports.adminBoard = (req, res) => {
-    res.status(200).send("Admin Content.");
-  };
-
   exports.findAllUsers = (req, res) => {
     Users.findAll({attributes: show, include: requierements}).then(data => {
       res.status(200).send(data);
