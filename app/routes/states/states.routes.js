@@ -13,7 +13,6 @@ module.exports = function(app) {
     //Retrieve all states
     app.get(
       "/api/states/",
-      [authJwt.verifyToken],
       controller.findAllStates
     );
   
