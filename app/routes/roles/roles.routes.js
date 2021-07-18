@@ -13,7 +13,6 @@ module.exports = function(app) {
     //Retrieve all roles
     app.get(
       "/api/roles/",
-      [authJwt.verifyToken],
       controller.findAllRoles
     );
   
