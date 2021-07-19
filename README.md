@@ -17,6 +17,7 @@
 
 ## POST 
 "/api/auth/signup" : { fullName, email, password, city, stateIDStates }
+
 "/api/wallets/": { name, description, amount, bankIDBank, userIDUsers }
 
 ## PUT
@@ -48,4 +49,5 @@
 
 ## GET
 "/api/users/" : { Devuelve JSON de todos los usuarios }
+
 "/api/wallets/" : { Devuelve JSON de todas las carteras}
