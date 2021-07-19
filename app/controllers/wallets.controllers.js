@@ -14,9 +14,7 @@ const Wallets = db.wallets;
         userIDUsers: req.body.userIDUsers
     })
       .then((data) => {
-        res.status(200).send(data).then(data => {
-            res.status(200).send(data);
-        }).cath(err);
+        res.status(200).send(data);
       })
       .catch((err => {
         res.status(500).send({
