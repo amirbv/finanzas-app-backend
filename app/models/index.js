@@ -34,7 +34,9 @@ db.banks = require("../models/banks.model.js")(sequelize, Sequelize);
 db.currencyType = require("../models/currencyTypes.model.js")(sequelize, Sequelize);
 db.countries = require("../models/countries.model.js")(sequelize,Sequelize);
 db.wallets = require("../models/wallets.model.js")(sequelize, Sequelize);
-
+db.options = require("../models/options.model.js")(sequelize,Sequelize);
+db.movementType = require("../models/movementType.model.js")(sequelize, Sequelize);
+db.conversionRate = require("../models/conversionRate.model.js")(sequelize, Sequelize);
 
 //Associations
 db.role.hasMany(db.user,{ as: "users"});
@@ -43,6 +45,7 @@ db.currencyType.hasMany(db.banks, {as: "banks"});
 db.countries.hasMany(db.banks, {as: "banks"});
 db.user.hasMany(db.wallets, {as: "wallets"});
 db.banks.hasMany(db.wallets, {as: "wallets"});
+
 
 db.user.belongsTo(db.role, {
     foreignKey: "roleIDRoles",

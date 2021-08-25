@@ -28,7 +28,7 @@ app.use(express.urlencoded({extended: true}));
 
 //Simple route
 app.get("/", (req, res)=>{
-    res.json({message:"Welcome to the application"});
+    res.json({message:"Welcome to FinancyApp"});
 });
 
 // routes
@@ -41,6 +41,9 @@ require('./app/routes/currencyType/currencyType.routes')(app);
 require('./app/routes/countries/countries.routes')(app);
 require('./app/routes/banks/banks.routes')(app);
 require('./app/routes/wallets/wallets.routes')(app);
+require('./app/routes/options/options.routes')(app);
+require('./app/routes/movementType/movementType.routes')(app);
+require('./app/routes/conversionRate/conversionRate.routes')(app);
 
 //Set port, listen for request
 const PORT = process.env.PORT || 8080;
