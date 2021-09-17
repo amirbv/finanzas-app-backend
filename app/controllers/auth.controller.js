@@ -1,4 +1,4 @@
-const db = require("../models");
+const db = require("../models/index.js");
 const config = require("../config/auth.config");
 const Users = db.user;
 const Roles = db.role;
@@ -65,6 +65,7 @@ exports.signin = (req, res) => {
       });
 
       res.status(200).send({
+        id: user.IDUsers,
         email: user.email,
         accessToken: token
       });
