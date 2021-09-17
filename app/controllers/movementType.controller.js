@@ -1,4 +1,4 @@
-const db = require("../models");
+const db = require("../models/index.js");
 const MovementType = db.movementType;
 
 exports.createMovementType = (movementType) => {

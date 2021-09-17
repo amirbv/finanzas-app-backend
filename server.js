@@ -4,7 +4,7 @@ const cors = require('cors');
 
 const app = express();
 
-const db = require("./app/models");
+const db = require("./app/models/index.js");
 
 /*On development use
 db.sequelize.sync({force: true}).then(()=>{
@@ -44,6 +44,7 @@ require('./app/routes/wallets/wallets.routes')(app);
 require('./app/routes/options/options.routes')(app);
 require('./app/routes/movementType/movementType.routes')(app);
 require('./app/routes/conversionRate/conversionRate.routes')(app);
+require('./app/routes/movements/movements.routes')(app);
 
 //Set port, listen for request
 const PORT = process.env.PORT || 8080;

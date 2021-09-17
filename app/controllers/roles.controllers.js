@@ -1,4 +1,4 @@
-const db = require("../models");
+const db = require("../models/index.js");
 const Roles = db.role;
 
 exports.createRole = (roles) => {

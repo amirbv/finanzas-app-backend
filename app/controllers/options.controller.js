@@ -1,4 +1,4 @@
-const db = require("../models");
+const db = require("../models/index.js");
 const Options = db.options;
 
 exports.createOption = (options) => {

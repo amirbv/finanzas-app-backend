@@ -1,4 +1,4 @@
-const db = require("../models");
+const db = require("../models/index.js");
 const ConversionRate = db.conversionRate;
 
 exports.createConversionRate = (conversionRate) => {

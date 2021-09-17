@@ -1,4 +1,4 @@
-const db = require("../models");
+const db = require("../models/index.js");
 const Banks = db.banks;
 const CurrencyTypes = db.currencyType;
 const Countries = db.countries;
