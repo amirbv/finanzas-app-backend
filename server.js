@@ -47,7 +47,7 @@ require('./app/routes/conversionRate/conversionRate.routes')(app);
 require('./app/routes/movements/movements.routes')(app);
 
 //Set port, listen for request
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}`);
 });
