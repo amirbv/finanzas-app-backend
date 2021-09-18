@@ -100,23 +100,24 @@ const States = db.state;
     (async () => { 
       let IDUser = req.params.id; 
       let name = req.body.fullName;
-      let state = req.body.stateIDStates;
+      let state = parseInt(req.body.stateIDStates);
       let city = req.body.city;
+
       try{
-        const result = await Users.update(
-          { fullName: name, 
-            stateIDStates: state,
-            city: city
-          }, //what going to be updated
-          { where: { IDUsers: IDUser }} // where clause
+        const result = await Users.update({
+          fullName: name, 
+          stateIDStates: state,
+          city: city
+        }, 
+          { where: { IDUsers: IDUser }}
         )
         if (result == 1) {
           res.send({
             message: "Usuario actualizado."
           });
         } else {
-          res.send({
-            message: `No se pudo actualizar. Quizas no existe o el req.body esta vacio`
+          res.status(401).send({
+            message: `Error en la actualizacion. Es posible que no se hayan realizados cambios en los datos del usuario, algun campo este vacío o el usuario no existe`
           });
         }
       } catch (error) {
