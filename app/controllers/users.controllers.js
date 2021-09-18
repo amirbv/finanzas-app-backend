@@ -116,12 +116,11 @@ const States = db.state;
           });
         } else {
           res.send({
-            message: `No se pudo actualizar id=${id}. Quizas no existe o el req.body esta vacio`
+            message: `No se pudo actualizar. Quizas no existe o el req.body esta vacio`
           });
         }
       } catch (error) {
         // error handling
-        console.log(name, city, state, error)
         res.status(500).send({
           message: "Error del servidor"
         });
