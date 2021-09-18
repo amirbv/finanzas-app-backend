@@ -24,6 +24,13 @@ module.exports = function(app) {
     controller.updateUser
   );
 
+  //Update a User Password
+  app.put(
+    "/api/users/updatePass/:id",
+    [authJwt.verifyToken],
+    controller.updateUserPassword
+  );
+
   //Delete a user
   app.delete(
     "/api/users/delete/:id",

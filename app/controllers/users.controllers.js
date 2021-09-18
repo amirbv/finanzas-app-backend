@@ -1,4 +1,5 @@
 const db = require("../models/index.js");
+const bcrypt = require('bcryptjs');
 const Users = db.user;
 const Roles = db.role;
 const States = db.state;
@@ -50,9 +51,84 @@ const States = db.state;
       });
   };
 
-  exports.updateUser = (req, res) => {
-    const IDUser = req.params.id;
+  exports.updateUserPassword = (req, res) => {
+    (async () => {
+      let IDUser = req.params.id;
+      let password = req.body.password;
+      let verifyPassword;
+      let newPassword = req.body.newPassword;
+      let confirmPassword = req.body.confirmPassword;
+      
+      
+      try {
+        if (newPassword == confirmPassword) {
+          var hashedPassword = bcrypt.hashSync(req.body.newPassword, 8)
+        }else{
+          res.status(400).send({
+            message:"Contraseñas no coinciden"
+          })
+        }
 
+        let User = await Users.findByPk(IDUser, {attributes: ["password"]})
+        verifyPassword = bcrypt.compareSync(password, User.password);
+        if (verifyPassword){
+          let UpdateUserPass = await Users.update({
+            password: hashedPassword
+          },{where: {IDUsers:IDUser}}
+          )
+
+          if (UpdateUserPass){
+            res.status(200).send({
+              message: "Contraseña actualizada exitosamente"
+            })
+          }
+        }else{
+          res.status(401).send({
+            message: "Error. Contraseña anterior incorrecta"
+          })
+        }
+      } catch (error) {
+        res.status(500).send({
+          message: "Error del servidor"
+        })
+      }
+
+    })();
+  }
+
+  exports.updateUser = (req, res) => {
+    (async () => { 
+      let IDUser = req.params.id; 
+      let name = req.body.fullName;
+      let state = req.body.stateIDStates;
+      let city = req.body.city;
+      try{
+        const result = await Users.update(
+          { fullName: name, 
+            stateIDStates: state,
+            city: city
+          }, //what going to be updated
+          { where: { IDUsers: IDUser }} // where clause
+        )
+        if (result == 1) {
+          res.send({
+            message: "Usuario actualizado."
+          });
+        } else {
+          res.send({
+            message: `No se pudo actualizar id=${id}. Quizas no existe o el req.body esta vacio`
+          });
+        }
+      } catch (error) {
+        // error handling
+        console.log(name, city, state, error)
+        res.status(500).send({
+          message: "Error del servidor"
+        });
+      }
+    })();
+
+    /*
     Users.update(req.body, {
       where: {IDUsers:IDUser}
     }).then(result => {
@@ -68,9 +144,10 @@ const States = db.state;
     })
     .catch(err => {
       res.status(500).send({
-        message: err
+        message: "Error del servidor"
       });
     });
+    */
   };
 
   exports.deleteUser = (req, res) => {
