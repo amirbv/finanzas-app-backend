@@ -128,26 +128,6 @@ const States = db.state;
       }
     })();
 
-    /*
-    Users.update(req.body, {
-      where: {IDUsers:IDUser}
-    }).then(result => {
-      if (result == 1) {
-        res.send({
-          message: "Usuario actualizado."
-        });
-      } else {
-        res.send({
-          message: `No se pudo actualizar id=${id}. Quizas no existe o el req.body esta vacio`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: "Error del servidor"
-      });
-    });
-    */
   };
 
   exports.deleteUser = (req, res) => {
