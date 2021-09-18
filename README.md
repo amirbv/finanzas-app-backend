@@ -1,6 +1,30 @@
 # finanzas-app-backend
 
-# RUTAS DISPONIBLES PARA USUARIOS Y ADMINISTRADORES
+# RUTAS USERS
+
+## GET (Leer al usuario por el ID)
+"/api/users/:id" : { req.params.id }
+
+## PUT (Actualizar informacion basica del usuario)
+"/api/users/update/:id" : { 
+  req.params.id, 
+  req.body.fullName, 
+  req.body.stateIDStates, 
+  req.body.city
+}
+
+## PUT (Actualizar contraseña del usuario)
+"/api/users/updatePass/:id": {
+  req.params.id, 
+  req.body.password,
+  req.body.newPassword,
+  req.body.confirmPassword
+  }
+
+## DELETE (Borrar al usuario por el ID)
+"/api/users/delete/:id" : { req.params.id }
+
+
 
 ## GET
 "/api/states": { devuelve: IDStates, name }
@@ -36,14 +60,7 @@
 ## POST
 "/api/auth/signin/admin" : { email, password }
 
-## GET
-"/api/users/:id" : { req.params.id }
 
-## PUT
-"/api/users/update/:id" : { req.params.id req.body.key_a_modificar }
-
-## DELETE
-"/api/users/delete/:id" : { req.params.id }
 
 # RUTAS DISPONIBLES PARA ADMINISTRADORES
 
