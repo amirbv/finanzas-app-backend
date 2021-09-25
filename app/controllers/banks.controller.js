@@ -9,7 +9,6 @@ const Countries = db.countries;
         name: banks.name,
         shortName: banks.shortName,
         photoURL: banks.photoURL,
-        currencyTypeIDCurrencyType: banks.currencyTypeIDCurrencyType,
         countriesIDCountries: banks.countriesIDCountries
     })
       .then((banks) => {

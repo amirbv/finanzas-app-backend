@@ -22,6 +22,10 @@ module.exports = (sequelize,Sequelize) =>{
             type: Sequelize.INTEGER,
             primaryKey: true
         },
+        currencyTypeIDCurrencyType:{
+            type: Sequelize.INTEGER,
+            primaryKey: true
+        },
         userIDUsers:{
             type: Sequelize.INTEGER,
             primaryKey: true

@@ -1,3 +1,4 @@
+const { wallets } = require("../models/index.js");
 const db = require("../models/index.js");
 const Users = db.user;
 const Banks = db.banks;
@@ -10,6 +11,7 @@ const Wallets = db.wallets;
         description: req.body.description,
         amount: req.body.amount,
         bankIDBank: req.body.bankIDBank,
+        currencyTypeIDCurrencyType: wallets.currencyTypeIDCurrencyType,
         userIDUsers: req.params.id
     })
       .then((data) => {

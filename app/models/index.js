@@ -42,10 +42,13 @@ db.movements = require("./movements.model.js")(sequelize, Sequelize);
 //Associations
 db.role.hasMany(db.user,{ as: "users"});
 db.state.hasMany(db.user, {as: "users"});
-db.currencyType.hasMany(db.banks, {as: "banks"});
+
 db.countries.hasMany(db.banks, {as: "banks"});
+
 db.user.hasMany(db.wallets, {as: "wallets"});
 db.banks.hasMany(db.wallets, {as: "wallets"});
+db.currencyType.hasMany(db.wallets, {as: "wallets"});
+
 db.options.hasMany(db.movements, {as: "movements"});
 db.movementType.hasMany(db.movements, {as: "movements"});
 db.wallets.hasMany(db.movements, {as: "movements"});
@@ -61,7 +64,7 @@ db.user.belongsTo(db.state, {
     as: "State"
 });
 
-db.banks.belongsTo(db.currencyType,{
+db.wallets.belongsTo(db.currencyType,{
     foreignKey: "currencyTypeIDCurrencyType",
     as: "CurrencyType"
 });

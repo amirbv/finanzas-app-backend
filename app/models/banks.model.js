@@ -14,10 +14,6 @@ module.exports = (sequelize,Sequelize) =>{
         photoURL:{
             type: Sequelize.STRING
         },
-        currencyTypeIDCurrencyType:{
-            type: Sequelize.INTEGER,
-            primaryKey: true
-        },
         countryIDCountries:{
             type: Sequelize.INTEGER,
             primaryKey: true,
