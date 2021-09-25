@@ -38,11 +38,7 @@ const Countries = db.countries;
   ];
 
   let requierements = [
-    {
-      model: CurrencyTypes,
-      as: "CurrencyType"
-    },
-        
+       
     {
       model: Countries,
       as: "Countries"

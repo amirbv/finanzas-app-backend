@@ -134,5 +134,10 @@ const Wallets = db.wallets;
     {
       model: Users,
       as: "User"
+    },
+
+    {
+      model: CurrencyTypes,
+      as: "CurrencyType"
     }
   ];
