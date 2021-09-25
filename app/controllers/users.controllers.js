@@ -103,7 +103,11 @@ const States = db.state;
       let state = parseInt(req.body.stateIDStates);
       let city = req.body.city;
 
+
       try{
+
+        let User = await Users.findByPk(IDUser)
+
         const result = await Users.update({
           fullName: name, 
           stateIDStates: state,
@@ -111,13 +115,22 @@ const States = db.state;
         }, 
           { where: { IDUsers: IDUser }}
         )
+
+        console.log(result)
         if (result == 1) {
-          res.send({
-            message: "Usuario actualizado."
+          res.status(200).send({
+            message: "Datos actualizados!"
           });
         } else {
-          res.status(401).send({
-            message: `Error en la actualizacion. Es posible que no se hayan realizados cambios en los datos del usuario, algun campo este vacío o el usuario no existe`
+
+          if((User.fullName == name) && (User.stateIDStates == state) && (User.city == city)){
+            res.status(201).send({
+              message: "Datos actualizados!"
+            })
+          }
+
+          res.status(400).send({
+            message: `Error en la actualizacion. Es posible que no se hayan realizados cambios en los datos del usuario o algun campo este vacío`
           });
         }
       } catch (error) {
