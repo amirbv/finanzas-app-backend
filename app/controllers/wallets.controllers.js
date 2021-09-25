@@ -3,6 +3,7 @@ const db = require("../models/index.js");
 const Users = db.user;
 const Banks = db.banks;
 const Wallets = db.wallets;
+const CurrencyTypes = db.currencyType;
 
 //Create and save new Wallets
   exports.createWallet = (req, res) => {
