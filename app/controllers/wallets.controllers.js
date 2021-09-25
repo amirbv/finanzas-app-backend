@@ -18,7 +18,7 @@ const Wallets = db.wallets;
       .catch((err => {
         res.status(500).send({
             message:
-              err.message || "Ocurrio un error al crear la cartera"});  
+              err.message || "Ocurrio un error al crear la cartera."});  
       }));
   };
 
