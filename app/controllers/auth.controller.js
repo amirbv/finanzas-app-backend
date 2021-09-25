@@ -21,7 +21,7 @@ exports.signup = (req, res) => {
           where: {IDRoles: user.roleIDRoles}
         }).then(() =>{
           var token = jwt.sign({ id: user.IDUsers }, config.secret, {
-          expiresIn: 86400 // 24 hours
+          expiresIn: 32400000 // Un año
         });
         res.send({
           email: user.email,

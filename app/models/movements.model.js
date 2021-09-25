@@ -5,6 +5,14 @@ module.exports = (sequelize,Sequelize) =>{
             primaryKey: true,
             autoIncrement: true
         },
+        title:{
+            type: Sequelize.STRING,
+            allowNull: false
+        },
+        description:{
+            type: Sequelize.STRING,
+            defaultValue: "Sin descripcion..."
+        },
         optionIDOptions:{
             type: Sequelize.INTEGER(13),
             primaryKey: true,

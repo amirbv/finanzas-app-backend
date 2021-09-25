@@ -11,7 +11,7 @@ const Wallets = db.wallets;
         amount: req.body.amount,
         isActive: req.body.isActive,
         bankIDBank: req.body.bankIDBank,
-        userIDUsers: req.body.userIDUsers
+        userIDUsers: req.params.idUser
     })
       .then((data) => {
         res.status(200).send(data);
@@ -118,6 +118,7 @@ const Wallets = db.wallets;
   };
 
   let show = [
+    "IDWallets",
     "name",
     "description",
     "amount"

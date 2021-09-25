@@ -41,6 +41,8 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
           
               return Movements.create({
                   optionIDOptions: option,
+                  title: req.body.title,
+                  description: req.body.description,
                   movementTypeIDMovementType: req.body.movementTypeIDMovementType,
                   amount: amount,
                   walletIDWallets: req.params.idWallet,

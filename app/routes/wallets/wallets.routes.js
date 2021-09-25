@@ -12,14 +12,14 @@ module.exports = function(app) {
   
   //create a wallet
   app.post(    
-    "/api/wallets/",
+    "/api/wallets/:idUser",
     [authJwt.verifyToken],
     controller.createWallet
   );
 
   //Retrieve a wallet
   app.get(
-    "/api/wallets/:id",
+    "/api/wallets/:idWallet",
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.findOneWallet
   );
