@@ -1,41 +1,12 @@
 # finanzas-app-backend
 
-# RUTAS USERS
-
-## GET (Leer al usuario por el ID)
-"/api/users/:id" : { req.params.id }
-
-## PUT (Actualizar informacion basica del usuario)
-"/api/users/update/:id" : { 
-  req.params.id, 
-  req.body.fullName, 
-  req.body.stateIDStates, 
-  req.body.city
-}
-
-## PUT (Actualizar contraseña del usuario)
-"/api/users/updatePass/:id": {
-  req.params.id, 
-  req.body.password,
-  req.body.newPassword,
-  req.body.confirmPassword
-  }
-
-## DELETE (Borrar al usuario por el ID)
-"/api/users/delete/:id" : { req.params.id }
-
 
 
 ## GET
-"/api/states": { devuelve: IDStates, name }
 
-"/api/roles": { devuelve: IDRoles, name }
 
-"/api/currencies": { devuelve: IDCurrencyType, name, symbol, letterSymbol }
 
-"/api/countries": { devuelve: IDCountries, shortName, name }
 
-"/api/banks": {devuelve: IDBank, name, shortName, photoURL, CurrencyTypes:{ IDCurrencyType, name, symbol, letterSymbol }, Countries:{ IDCountries, shortName, name }}
 
 "/api/walletsByUser/:id": {req.params.id, devuelve JSON de las carteras por el id del usuario}
 

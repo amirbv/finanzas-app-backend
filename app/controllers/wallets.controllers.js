@@ -72,6 +72,7 @@ const CurrencyTypes = db.currencyType;
       });
   };
 
+  
   exports.updateWallet = (req, res) => {
     const IDWallet = req.params.id;
 
