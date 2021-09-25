@@ -10,7 +10,7 @@ const Wallets = db.wallets;
         description: req.body.description,
         amount: req.body.amount,
         bankIDBank: req.body.bankIDBank,
-        userIDUsers: req.params.idU
+        userIDUsers: req.params.id
     })
       .then((data) => {
         res.status(200).send(data);
