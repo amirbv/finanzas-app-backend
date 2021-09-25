@@ -12,7 +12,7 @@ module.exports = function(app) {
   
   //create a wallet
   app.post(    
-    "/api/wallets/:idUser",
+    "/api/wallets/:id",
     [authJwt.verifyToken],
     controller.createWallet
   );

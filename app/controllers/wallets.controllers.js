@@ -9,9 +9,8 @@ const Wallets = db.wallets;
         name: req.body.name,
         description: req.body.description,
         amount: req.body.amount,
-        isActive: req.body.isActive,
         bankIDBank: req.body.bankIDBank,
-        userIDUsers: req.params.idUser
+        userIDUsers: req.params.idU
     })
       .then((data) => {
         res.status(200).send(data);
