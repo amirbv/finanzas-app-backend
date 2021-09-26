@@ -30,17 +30,25 @@ verifyToken = (req, res, next) => {
   
   //
   isAdmin = (req, res, next) => {
-    Users.findByPk(req.IDUsers).then(user => {
-          if (user.roleIDRoles === 2) {
-            next();
-            return;
-        }
-  
+    (async () => {
+      let emailUser = req.body.email;
+      let user = await Users.findOne(
+          {
+            where: {email:emailUser}
+          }
+      );
+
+      if (user.roleIDRoles === 2) {
+        next();
+        return;
+      }else{
         res.status(403).send({
           message: "Requiere ser administrador!"
         });
         return;
-    });  
+      }
+    })();
+
   };
   
   const authJwt = {

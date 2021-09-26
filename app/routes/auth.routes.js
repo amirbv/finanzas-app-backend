@@ -26,7 +26,6 @@ module.exports = function(app) {
   //Signin a Admin
   app.post("/api/auth/signin/admin",
   [
-    authJwt.verifyToken,
     authJwt.isAdmin
   ],
   controller.signin
