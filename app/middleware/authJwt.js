@@ -38,15 +38,27 @@ verifyToken = (req, res, next) => {
           }
       );
 
-      if (user.roleIDRoles === 2) {
-        next();
-        return;
-      }else{
-        res.status(403).send({
-          message: "Requiere ser administrador!"
-        });
-        return;
+
+      try {
+        if (user === null) {
+          res.status(404).send({
+            message: "El usuario no existe"
+          });
+          return;
+        }
+        if (user.roleIDRoles === 2) {
+          next();
+          return;
+        }else{
+          res.status(403).send({
+            message: "Requiere ser administrador!"
+          });
+          return;
+        }
+      } catch (error) {
+        console.log(error);
       }
+
     })();
 
   };
