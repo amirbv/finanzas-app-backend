@@ -1,19 +1,35 @@
 # CONTROLADORES DE USUARIOS
 
 ## GET 
-Devuelve al de usuario por el id
+Devuelve al usuario
 
-"/api/users/:id" : { 
-  - id del usuario por url (:id) 
+"/api/users/" : { 
+- fullName,
+- email,
+- city,
+- createdAt,
+- isBlocked,
+- State: {
+  - IDStates,
+  - name
+    
+  },
+- Role: {
+    - IDRoles,
+    - name
+  
+  }
 
 }
+
+## Devuelve a todos los usuarios (Se requiere ser admin)
+"/api/allUsers/"
 
 ## PUT 
 
 ## Actualizar informacion basica del usuario
 
-"/api/users/update/:id" : { 
-  - id del usuario por url (:id), 
+"/api/users/update/" : { 
   - fullName, 
   - stateIDStates, 
   - city
@@ -23,8 +39,7 @@ Devuelve al de usuario por el id
 
 ## Actualizar contraseña del usuario
 
-"/api/users/updatePass/:id": {
-  - id del usuario por url (:id), 
+"/api/users/updatePass/": {
   - password,
   - newPassword,
   - confirmPassword
@@ -35,7 +50,4 @@ Devuelve al de usuario por el id
 
 ## Borrar al usuario por el ID
 
-"/api/users/delete/:id" : { 
-  - id del usuario por url (:id)
-
-}
+"/api/users/delete/"

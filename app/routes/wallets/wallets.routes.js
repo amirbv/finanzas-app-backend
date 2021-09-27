@@ -12,7 +12,7 @@ module.exports = function(app) {
   
   //create a wallet
   app.post(    
-    "/api/wallets/:id",
+    "/api/wallets/",
     [authJwt.verifyToken],
     controller.createWallet
   );
@@ -20,7 +20,7 @@ module.exports = function(app) {
   //Retrieve a wallet
   app.get(
     "/api/wallets/:idWallet",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken],
     controller.findOneWallet
   );
   
@@ -33,7 +33,7 @@ module.exports = function(app) {
 
   //Retrieve a wallet by user
   app.get(
-    "/api/walletsByUser/:id",
+    "/api/walletsByUser/",
     [authJwt.verifyToken],
     controller.findAllWalletsByUsers
   );

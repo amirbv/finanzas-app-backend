@@ -12,7 +12,7 @@ module.exports = function(app) {
 
   //Retrieve all users
   app.get(
-    "/api/users/",
+    "/api/allUsers/",
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.findAllUsers
   );

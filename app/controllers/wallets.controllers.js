@@ -1,4 +1,6 @@
 const { wallets } = require("../models/index.js");
+var jwt = require("jsonwebtoken");
+const config = require("../config/auth.config");
 const db = require("../models/index.js");
 const Users = db.user;
 const Banks = db.banks;
@@ -7,13 +9,15 @@ const CurrencyTypes = db.currencyType;
 
 //Create and save new Wallets
   exports.createWallet = (req, res) => {
+    let token = req.headers['x-access-token']
+    let dtoken = jwt.verify(token, config.secret);
     return Wallets.create({
         name: req.body.name,
         description: req.body.description,
         amount: req.body.amount,
         bankIDBank: req.body.bankIDBank,
         currencyTypeIDCurrencyType: wallets.currencyTypeIDCurrencyType,
-        userIDUsers: req.params.id
+        userIDUsers: dtoken.id
     })
       .then((data) => {
         res.status(200).send(data);
@@ -38,9 +42,10 @@ const CurrencyTypes = db.currencyType;
 
   //find wallets by user
   exports.findAllWalletsByUsers = (req, res) => {
-    const IDUser = req.params.id;
+    let token = req.headers['x-access-token']
+    let dtoken = jwt.verify(token, config.secret);
 
-    Wallets.findAll({where: {userIDUsers: IDUser}, attributes: show, include: requierements})
+    Wallets.findAll({where: {userIDUsers: dtoken.id}, attributes: show, include: requierements})
       .then((data) => {
         if(data){
           res.status(200).send(data);
@@ -56,9 +61,11 @@ const CurrencyTypes = db.currencyType;
 
   //Find a wallet
   exports.findOneWallet = (req, res) => {
-  const IDWallet = req.params.id;
+  const IDWallet = req.params.idWallet;
+  let token = req.headers['x-access-token']
+  let dtoken = jwt.verify(token, config.secret);
 
-    Wallets.findByPk(IDWallet, {attributes: show, include: requierements})
+    Wallets.findOne({where: { IDWallets:IDWallet, userIDUsers: dtoken.id }},{attributes: show, include: requierements})
       .then((data) => {
         if(data){
           res.status(200).send(data);
@@ -75,9 +82,12 @@ const CurrencyTypes = db.currencyType;
   
   exports.updateWallet = (req, res) => {
     const IDWallet = req.params.id;
+    let token = req.headers['x-access-token']
+    let dtoken = jwt.verify(token, config.secret);
 
     Wallets.update(req.body, {
-      where: {IDWallets:IDWallet}
+      where: {IDWallets:IDWallet,
+              userIDUsers: dtoken.id}
     }).then(result => {
       if (result == 1) {
         res.send({
@@ -99,9 +109,12 @@ const CurrencyTypes = db.currencyType;
   //Delete Wallet
   exports.deleteWallet = (req, res) => {
     const IDWallet = req.params.id;
-
+    let token = req.headers['x-access-token']
+    let dtoken = jwt.verify(token, config.secret);
+    
     Wallets.destroy({
-      where: {IDWallets: IDWallet}
+      where: {IDWallets: IDWallet,
+              userIDUsers: dtoken.id}
     }).then(result => {
       if (result == 1) {
         res.send({

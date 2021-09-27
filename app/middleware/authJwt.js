@@ -31,32 +31,56 @@ verifyToken = (req, res, next) => {
   //
   isAdmin = (req, res, next) => {
     (async () => {
-      let emailUser = req.body.email;
-      let user = await Users.findOne(
-          {
-            where: {email:emailUser}
+      let token = req.headers["x-access-token"];
+      if(!token){
+        let emailUser = req.body.email;
+        let user = await Users.findOne(
+            {
+              where: {email:emailUser}
+            }
+        );
+  
+  
+        try {
+          if (user === null) {
+            res.status(404).send({
+              message: "El usuario no existe"
+            });
+            return;
           }
-      );
-
-
-      try {
-        if (user === null) {
-          res.status(404).send({
-            message: "El usuario no existe"
-          });
-          return;
+          if (user.roleIDRoles === 2) {
+            next();
+            return;
+          }else{
+            res.status(403).send({
+              message: "Requiere ser administrador!"
+            });
+            return;
+          }
+        } catch (error) {
+          console.log(error);
         }
-        if (user.roleIDRoles === 2) {
-          next();
-          return;
-        }else{
-          res.status(403).send({
-            message: "Requiere ser administrador!"
+      }else{
+        let dtoken = jwt.verify(token, config.secret);
+        let user = await Users.findOne(
+          {
+            where: {IDUsers:dtoken.id,
+                    roleIDRoles: 2}
           });
-          return;
-        }
-      } catch (error) {
-        console.log(error);
+
+          try {
+            if(user){
+              next();
+              return;
+            }else{
+              res.status(403).send({
+                message: "Requiere ser administrador!"
+              });
+              return;
+            }
+          } catch (error) {
+            console.log(error)
+          }
       }
 
     })();

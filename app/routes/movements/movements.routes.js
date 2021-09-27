@@ -20,9 +20,16 @@ module.exports = function(app) {
   //Retrieve a movement
   app.get(
     "/api/movements/:idWallet/:idMovement",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken],
     controller.findOneMovement
   );
+
+  //Find One Movements
+  app.get(
+    "/api/movements/:idWallet/:idMovement/",
+    [authJwt.verifyToken],
+    controller.findOneMovement
+  )
   
   //Retrieve all movements
   app.get(

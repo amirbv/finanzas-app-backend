@@ -1,6 +1,6 @@
 const dbConfig = require('../config/db.config.js');
 
-const Sequelize = require('sequelize');
+const {Sequelize, QueryTypes} = require('sequelize');
 const sequelize = new Sequelize(
     dbConfig.DB,
     dbConfig.USER,
@@ -53,6 +53,7 @@ db.options.hasMany(db.movements, {as: "movements"});
 db.movementType.hasMany(db.movements, {as: "movements"});
 db.wallets.hasMany(db.movements, {as: "movements"});
 db.conversionRate.hasMany(db.movements, {as: "movements"});
+db.user.hasMany(db.movements, {as: "movements"});
 
 db.user.belongsTo(db.role, {
     foreignKey: "roleIDRoles",
@@ -62,6 +63,11 @@ db.user.belongsTo(db.role, {
 db.user.belongsTo(db.state, {
     foreignKey: "stateIDStates",
     as: "State"
+});
+
+db.movements.belongsTo(db.user, {
+    foreignKey: "userIDUsers",
+    as: "User"
 });
 
 db.wallets.belongsTo(db.currencyType,{

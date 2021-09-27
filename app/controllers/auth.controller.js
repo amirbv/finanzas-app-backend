@@ -61,8 +61,11 @@ exports.signin = (req, res) => {
       }
 
       var token = jwt.sign({ id: user.IDUsers }, config.secret, {
-        expiresIn: 86400 // 24 hours
+        expiresIn: 90000000000000
       });
+
+      var dtoken = jwt.verify(token, config.secret);
+      console.log(dtoken)
 
       res.status(200).send({
         id: user.IDUsers,

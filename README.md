@@ -1,15 +1,6 @@
 # finanzas-app-backend
 
 
-
-## GET
-
-
-
-
-
-"/api/walletsByUser/:id": {req.params.id, devuelve JSON de las carteras por el id del usuario}
-
 ## POST 
 "/api/auth/signup" : { fullName, email, password, city, stateIDStates }
 

@@ -9,31 +9,32 @@ module.exports = function(app) {
     );
     next();
   });
-  
+
+
   //Retrieve a user
   app.get(
-    "/api/users/:id",
+    "/api/users/",
     [authJwt.verifyToken],
     controller.findOneUser
   );
 
   //Update a User
   app.put(
-    "/api/users/update/:id",
+    "/api/users/update/",
     [authJwt.verifyToken],
     controller.updateUser
   );
 
   //Update a User Password
   app.put(
-    "/api/users/updatePass/:id",
+    "/api/users/updatePass/",
     [authJwt.verifyToken],
     controller.updateUserPassword
   );
 
   //Delete a user
   app.delete(
-    "/api/users/delete/:id",
+    "/api/users/delete/",
     [authJwt.verifyToken],
     controller.deleteUser
   );

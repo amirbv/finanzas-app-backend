@@ -1,18 +1,28 @@
 const fetch = require('node-fetch');
 const db = require("../models/index.js");
+var jwt = require("jsonwebtoken");
+const config = require("../config/auth.config");
 const Options = db.options;
+const Users = db.user;
 const MovementType = db.movementType;
 const Wallets = db.wallets;
 const ConversionRates = db.conversionRate;
 const Movements = db.movements;
 const url = 'https://s3.amazonaws.com/dolartoday/data.json';
 
+
+// let token = req.headers['x-access-token']
+// let dtoken = jwt.verify(token, config.secret);
+
 //Create and save new Movement
   exports.createMovement = (req, res) => {
     (async () => {
+      let token = req.headers['x-access-token']
+      let dtoken = jwt.verify(token, config.secret);
       await fetch(url)
           .then((response) => response.json())
           .then((data) => {
+              let IDWallet = req.params.idWallet;
               let EUR = data.EUR.promedio;
               let USD = data.USD.promedio;
 
@@ -38,46 +48,70 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
               }else if(conversionRate == 8){
                 conversionAmount = amount * conversionByUser;
               }
-          
-              return Movements.create({
-                  optionIDOptions: option,
-                  title: req.body.title,
-                  description: req.body.description,
-                  movementTypeIDMovementType: req.body.movementTypeIDMovementType,
-                  amount: amount,
-                  walletIDWallets: req.params.idWallet,
-                  conversionRateIDConversionRate: req.body.conversionRateIDConversionRate,
-                  conversionAmount: conversionAmount
-              })
-                .then((data) => {
-                  res.status(200).send(data);
-                })
-                .catch((err => {
-                  res.status(500).send({
-                      message:
-                        err.message || "Ocurrio un error al crear el movimiento"});  
-                }));
+              (async () => {
+                try {
+                  let movement = await Movements.create({
+                    optionIDOptions: option,
+                    userIDUsers: dtoken.id,
+                    title: req.body.title,
+                    description: req.body.description,
+                    movementTypeIDMovementType: req.body.movementTypeIDMovementType,
+                    amount: amount,
+                    walletIDWallets: req.params.idWallet,
+                    conversionRateIDConversionRate: req.body.conversionRateIDConversionRate,
+                    conversionAmount: conversionAmount
+                });
+
+                if(movement){
+                  try {
+                    let wallet = await Wallets.findOne(
+                      { where: { IDWallets: IDWallet, userIDUsers: dtoken.id } },
+                      { attributes: "amount" }
+                    );
+                    let results = await db.sequelize.query(
+                      `SELECT movements.amount as suma FROM movements INNER JOIN wallets WHERE wallets.IDWallets = ${IDWallet} AND movements.IDMovements = ${movement._previousDataValues.IDMovements}`,
+                      { type: db.sequelize.QueryTypes.SELECT }
+                    );
+        
+                    let amountWallet =
+                      ((parseFloat(wallet.amount)) + (parseFloat(results[0].suma)));
+        
+                    await Wallets.update(
+                      { amount: amountWallet },
+                      { where: { IDWallets: IDWallet, userIDUsers: dtoken.id  } }
+                    );
+                    return res.status(200).send({
+                      message: "Movimiento creado con exito"
+                    });
+                    
+                  } catch (error) {
+                    console.log(error)
+                  }
+                }else{
+                    return res.status(500).send({
+                      message: "Error en el servidor"
+                    })
+                }
+
+                } catch (error) {
+                  console.log(error)
+                  return res.status(500).send({
+                    message: "Error en el servidor"
+                  })
+                }
+
+              })();
+
           });
+
+
     })();
     
   };
 
   //Find all movements
   exports.findAllMovements = (req, res) => {
-    Movements.findAll({attributes: show, include: requierements}).then(data => {
-      res.status(200).send(data);
-    }).catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Ocurrio un error al mostrar los movimientos"});
-    });
-  };
-
-  //find movements by wallet
-  exports.findAllMovementsByWallets = (req, res) => {
-    const IDWallet = req.params.id;
-
-    Movements.findAll({where: {walletIDWallets: IDWallet}, attributes: show, include: requierements})
+    Movements.findAll({attributes: show, include: requierements})
       .then((data) => {
         if(data){
           res.status(200).send(data);
@@ -89,13 +123,43 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
           message:
             err.message || "Ocurrio un error al mostrar los movimientos"});
       });
+  };
+
+  //find movements by wallet
+  exports.findAllMovementsByWallets = (req, res) => {
+    try {
+      const IDWallet = req.params.idWallet;
+      let token = req.headers['x-access-token']
+      let dtoken = jwt.verify(token, config.secret);
+      Movements.findAll({where: {walletIDWallets: IDWallet, userIDUsers: dtoken.id}, attributes: show, include: requierements})
+      .then((data) => {
+        if(data.length === 0){
+          res.status(404).send({
+            message: "Movimientos no encontrados"
+          })
+        }
+
+        if(data){
+          res.status(200).send(data);
+        }
+      }).catch(err => {
+        res.status(500).send({
+          message:
+            err.message || "Ocurrio un error al mostrar los movimientos"});
+      });
+    } catch (error) {
+      
+    }
+    
   }
 
   //Find a movement
   exports.findOneMovement = (req, res) => {
-  const IDMovement = req.params.id;
-
-    Movements.findByPk(IDMovement, {attributes: show, include: requierements})
+  const IDMovement = req.params.idMovement;
+  const IDWallet = req.params.idWallet;
+  let token = req.headers['x-access-token']
+  let dtoken = jwt.verify(token, config.secret);
+    Movements.findOne({where: {walletIDWallets: IDWallet, IDMovements: IDMovement, userIDUsers: dtoken.id}, attributes: show, include: requierements})
       .then((data) => {
         if(data){
           res.status(200).send(data);
@@ -109,76 +173,19 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
       });
   };
 
-  // Update moveement
+  // Update movemement
   exports.updateMovement = (req, res) => {
-    const IDMovement = req.params.idMovement;
-
-    Movements.update(req.body, {
-      where: {IDMovements:IDMovement}
-    }).then(result => {
-      if (result == 1) {
-        res.send({
-          message: "Movimiento actualizado."
-        });
-      } else {
-        res.send({
-          message: `No se pudo actualizar el movimiento con id=${id}. Quizas no existe o el req.body esta vacio`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: err
-      });
-    });
+    (async = () =>{
+      
+    })()
   };
 
-  //Update amount in wallet
-  exports.updateAmountWallet = (req, res) => {
-    const IDMovement = req.params.id;
-
-    Movements.update(req.body, {
-      where: {IDMovements:IDMovement}
-    }).then(result => {
-      if (result == 1) {
-        res.send({
-          message: "Movimiento actualizado."
-        });
-      } else {
-        res.send({
-          message: `No se pudo actualizar el movimiento con id=${id}. Quizas no existe o el req.body esta vacio`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: err
-      });
-    });
-  };
 
   //Delete Movement
   exports.deleteMovement = (req, res) => {
-    const IDMovement = req.params.id;
+    (async = () =>{
 
-    Movements.destroy({
-      where: {IDMovements: IDMovement}
-    }).then(result => {
-      if (result == 1) {
-        res.send({
-          message: "Movimiento borrado exitosamente."
-        });
-      } else {
-        res.send({
-          message: `No se pudo borrar id=${id}. Quizas no existe.`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: err
-      });
-    });
+    })()
   };
 
   let show = [
@@ -208,5 +215,10 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
       model: ConversionRates,
       as: "ConversionRates"
 
+    },
+
+    {
+      model: Users,
+      as:"User"
     }
   ];

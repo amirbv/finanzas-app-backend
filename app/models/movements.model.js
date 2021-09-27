@@ -5,6 +5,10 @@ module.exports = (sequelize,Sequelize) =>{
             primaryKey: true,
             autoIncrement: true
         },
+        userIDUsers:{
+            type: Sequelize.INTEGER,
+            primaryKey: true
+        },
         title:{
             type: Sequelize.STRING,
             allowNull: false

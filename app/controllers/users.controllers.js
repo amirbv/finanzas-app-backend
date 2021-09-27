@@ -3,26 +3,28 @@ const bcrypt = require('bcryptjs');
 const Users = db.user;
 const Roles = db.role;
 const States = db.state;
+var jwt = require("jsonwebtoken");
+const config = require("../config/auth.config");
 
 //Create and save new Users
-  exports.createUser = (users) => {
-    return Users.create({
-        fullName: users.fullName,
-        email: users.email,
-        password: users.password,
-        city: users.city,
-        stateIDStates: users.stateIDStates,
-        isBlocked: users.isBlocked,
-        roleIDRoles: users.roleIDRoles
-    })
-      .then((users) => {
-        console.log(">> Usuario creado: " + JSON.stringify(users, null, 4));
-        return users;
-      })
-      .catch((err) => {
-        console.log(">> Error mientras se creaba el usuario: ", err);
-      });
-  };
+  // exports.createUser = (users) => {
+  //   return Users.create({
+  //       fullName: users.fullName,
+  //       email: users.email,
+  //       password: users.password,
+  //       city: users.city,
+  //       stateIDStates: users.stateIDStates,
+  //       isBlocked: users.isBlocked,
+  //       roleIDRoles: users.roleIDRoles
+  //   })
+  //     .then((users) => {
+  //       console.log(">> Usuario creado: " + JSON.stringify(users, null, 4));
+  //       return users;
+  //     })
+  //     .catch((err) => {
+  //       console.log(">> Error mientras se creaba el usuario: ", err);
+  //     });
+  // };
 
   exports.findAllUsers = (req, res) => {
     Users.findAll({attributes: show, include: requierements}).then(data => {
@@ -35,9 +37,10 @@ const States = db.state;
   };
 
   exports.findOneUser = (req, res) => {
-  const IDUser = req.params.id;
+    let token = req.headers['x-access-token']
+    let dtoken = jwt.verify(token, config.secret);
 
-    Users.findByPk(IDUser, {attributes: show, include: requierements})
+    Users.findByPk(dtoken.id, {attributes: show, include: requierements})
       .then((data) => {
         if(data){
           res.status(200).send(data);
@@ -53,7 +56,9 @@ const States = db.state;
 
   exports.updateUserPassword = (req, res) => {
     (async () => {
-      let IDUser = req.params.id;
+      let token = req.headers['x-access-token']
+      let dtoken = jwt.verify(token, config.secret);
+
       let password = req.body.password;
       let verifyPassword;
       let newPassword = req.body.newPassword;
@@ -69,12 +74,12 @@ const States = db.state;
           })
         }
 
-        let User = await Users.findByPk(IDUser, {attributes: ["password"]})
+        let User = await Users.findByPk(dtoken.id, {attributes: ["password"]})
         verifyPassword = bcrypt.compareSync(password, User.password);
         if (verifyPassword){
           let UpdateUserPass = await Users.update({
             password: hashedPassword
-          },{where: {IDUsers:IDUser}}
+          },{where: {IDUsers:dtoken.id}}
           )
 
           if (UpdateUserPass){
@@ -98,7 +103,8 @@ const States = db.state;
 
   exports.updateUser = (req, res) => {
     (async () => { 
-      let IDUser = req.params.id; 
+      let token = req.headers['x-access-token']
+      let dtoken = jwt.verify(token, config.secret);
       let name = req.body.fullName;
       let state = parseInt(req.body.stateIDStates);
       let city = req.body.city;
@@ -106,17 +112,16 @@ const States = db.state;
 
       try{
 
-        let User = await Users.findByPk(IDUser)
+        let User = await Users.findByPk(dtoken.id)
 
         const result = await Users.update({
           fullName: name, 
           stateIDStates: state,
           city: city
         }, 
-          { where: { IDUsers: IDUser }}
+          { where: { IDUsers: dtoken.id }}
         )
 
-        console.log(result)
         if (result == 1) {
           res.status(200).send({
             message: "Datos actualizados!"
@@ -144,10 +149,11 @@ const States = db.state;
   };
 
   exports.deleteUser = (req, res) => {
-    const IDUser = req.params.id;
+    let token = req.headers['x-access-token']
+    let dtoken = jwt.verify(token, config.secret);
 
     Users.destroy({
-      where: {IDUsers:IDUser}
+      where: {IDUsers:dtoken.id}
     }).then(result => {
       if (result == 1) {
         res.send({
