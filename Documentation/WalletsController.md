@@ -74,8 +74,8 @@
 
 ## POST
 
-## Añadir una nueva cartera (se requiere el id del usuario por url)
-"/api/wallets/:id": { 
+## Añadir un nuevo monedero
+"/api/wallets/": { 
 - name, 
 - description, 
 - amount, 
@@ -83,3 +83,9 @@
 
 }
 
+
+## PUT
+
+## Actualiza el monedero por id (SE REQUIERE EL ID DEL MONEDERO)
+
+"/api/wallets/update/:id"

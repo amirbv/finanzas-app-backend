@@ -49,11 +49,11 @@ db.user.hasMany(db.wallets, {as: "wallets"});
 db.banks.hasMany(db.wallets, {as: "wallets"});
 db.currencyType.hasMany(db.wallets, {as: "wallets"});
 
-db.options.hasMany(db.movements, {as: "movements"});
-db.movementType.hasMany(db.movements, {as: "movements"});
-db.wallets.hasMany(db.movements, {as: "movements"});
-db.conversionRate.hasMany(db.movements, {as: "movements"});
-db.user.hasMany(db.movements, {as: "movements"});
+// db.options.hasMany(db.movements, {as: "movements"});
+// db.movementType.hasMany(db.movements, {as: "movements"});
+// db.wallets.hasMany(db.movements, {as: "movements"});
+// db.conversionRate.hasMany(db.movements, {as: "movements"});
+// db.user.hasMany(db.movements, {as: "movements"});
 
 db.user.belongsTo(db.role, {
     foreignKey: "roleIDRoles",
@@ -65,20 +65,18 @@ db.user.belongsTo(db.state, {
     as: "State"
 });
 
-db.movements.belongsTo(db.user, {
-    foreignKey: "userIDUsers",
-    as: "User"
-});
 
 db.wallets.belongsTo(db.currencyType,{
     foreignKey: "currencyTypeIDCurrencyType",
     as: "CurrencyType"
 });
 
+
 db.banks.belongsTo(db.countries,{
     foreignKey: "countryIDCountries",
     as: "Countries"
 });
+
 
 db.wallets.belongsTo(db.banks,{
     foreignKey: "bankIDBank",
@@ -90,24 +88,31 @@ db.wallets.belongsTo(db.user, {
     as: "User"
 });
 
-db.movements.belongsTo(db.options, {
-    foreignKey: "optionIDOptions",
-    as: "Options"
-});
 
-db.movements.belongsTo(db.movementType, {
-    foreignKey: "movementTypeIDMovementType",
-    as: "MovementTypes"
-});
+// db.movements.belongsTo(db.options, {
+//     foreignKey: "optionIDOptions",
+//     as: "Options"
+// });
 
-db.movements.belongsTo(db.wallets, {
-    foreignKey: "walletIDWallets",
-    as: "Wallets"
-});
+// db.movements.belongsTo(db.movementType, {
+//     foreignKey: "movementTypeIDMovementType",
+//     as: "MovementTypes"
+// });
 
-db.movements.belongsTo(db.conversionRate, {
-    foreignKey: "conversionRateIDConversionRate",
-    as: "ConversionRates"
-});
+// db.movements.belongsTo(db.wallets, {
+//     foreignKey: "walletIDWallets",
+//     as: "Wallets"
+// });
+
+// db.movements.belongsTo(db.conversionRate, {
+//     foreignKey: "conversionRateIDConversionRate",
+//     as: "ConversionRates"
+// });
+
+
+// db.movements.belongsTo(db.user, {
+//     foreignKey: "userIDUsers",
+//     as: "User"
+// });
 
 module.exports = db;
