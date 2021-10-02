@@ -31,7 +31,9 @@ const Countries = db.countries;
   };
 
   exports.findWalletDependencies = async(req, res) => {
-    let banks = await Banks.findAll({attributes: show, include: requierements});
+    let banks = await Banks.findAll({order: [
+          ['photoURL', 'ASC'],
+      ],attributes: show, include: requierements});
     let currencies = await CurrencyTypes.findAll();
     try {
       res.status(200).send({currencies, banks});
