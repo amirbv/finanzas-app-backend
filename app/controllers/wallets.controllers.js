@@ -64,8 +64,8 @@ const CurrencyTypes = db.currencyType;
   const IDWallet = req.params.idWallet;
   let token = req.headers['x-access-token']
   let dtoken = jwt.verify(token, config.secret);
-
-    Wallets.findOne({where: { IDWallets:IDWallet, userIDUsers: dtoken.id }},{attributes: show, include: requierements})
+  
+    Wallets.findOne({where: {IDWallets: IDWallet, userIDUsers: dtoken.id}, attributes: show, include: requierements})
       .then((data) => {
         if(data){
           res.status(200).send(data);
