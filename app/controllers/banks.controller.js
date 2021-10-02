@@ -29,6 +29,18 @@ const Countries = db.countries;
           err.message || "Ocurrio un error al mostrar los usuarios"});
     });
   };
+
+  exports.findWalletDependencies = async(req, res) => {
+    let banks = await Banks.findAll({attributes: show, include: requierements});
+    let currencies = await CurrencyTypes.findAll();
+    try {
+      res.status(200).send({currencies, banks});
+    } catch (error) {
+      res.status(500).send({
+        message: error.message
+      })
+    }
+  }
   
   let show = [
     "IDBank",

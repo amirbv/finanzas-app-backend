@@ -17,4 +17,10 @@ module.exports = function(app) {
     controller.findAllBanks
   );
 
+  app.get(
+    "/api/walletsDependencies/",
+    [authJwt.verifyToken],
+    controller.findWalletDependencies
+  );
+
 };
