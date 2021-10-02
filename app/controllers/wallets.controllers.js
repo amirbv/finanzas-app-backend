@@ -117,15 +117,14 @@ const CurrencyTypes = db.currencyType;
       try {
         let wallet = await Wallets.destroy({where: {IDWallets: idw, userIDUsers: dtoken.id}})
         if(wallet){
-          let movWallet = await sequelize.query(`DELETE FROM movements WHERE walletIDWallets = ${idw} AND userIDUsers=${dtoken.id}`, { type: QueryTypes.DELETE });
+          let movWallet = await db.sequelize.query(`DELETE FROM movements WHERE walletIDWallets = ${idw} AND userIDUsers=${dtoken.id}`, { type: db.sequelize.QueryTypes.DELETE });
           if(movWallet){
             res.status(200).send({message: "Monedero Borrado Exitosamente"})
           }
             res.status(200).send({message: "Monedero Borrado Exitosamente"})
-          
         }
-
       } catch (error) {
+        console.log(error)
         res.status(500).send({message: error})          
       }
 
