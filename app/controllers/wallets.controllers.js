@@ -106,11 +106,19 @@ const CurrencyTypes = db.currencyType;
     });
   };
 
-  //Delete Wallet
+  //Delete Wallet DELETE FROM `movements` WHERE `walletIDWallets` = ${WalletID}
   exports.deleteWallet = (req, res) => {
-    const IDWallet = req.params.id;
-    let token = req.headers['x-access-token']
-    let dtoken = jwt.verify(token, config.secret);
+    (async () => {
+
+      const IDWallet = req.params.id;
+      let token = req.headers['x-access-token']
+      let dtoken = jwt.verify(token, config.secret);
+
+      await sequelize.query(`DELETE FROM movements WHERE walletIDWallets = ${IDWallet}`, { type: QueryTypes.DELETE });
+      await Wallets.destroy({where: IDWallet})
+      
+    })()
+
     
     Wallets.destroy({
       where: {IDWallets: IDWallet,
