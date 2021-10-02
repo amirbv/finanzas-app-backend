@@ -16,7 +16,7 @@ const CurrencyTypes = db.currencyType;
         description: req.body.description,
         amount: req.body.amount,
         bankIDBank: req.body.bankIDBank,
-        currencyTypeIDCurrencyType: wallets.currencyTypeIDCurrencyType,
+        currencyTypeIDCurrencyType: req.body.currencyTypeIDCurrencyType,
         userIDUsers: dtoken.id
     })
       .then((data) => {
