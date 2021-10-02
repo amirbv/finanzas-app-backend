@@ -110,49 +110,27 @@ const CurrencyTypes = db.currencyType;
   exports.deleteWallet = (req, res) => {
     (async () => {
 
-      const IDWallet = req.params.id;
+      const idw = req.params.id;
       let token = req.headers['x-access-token']
       let dtoken = jwt.verify(token, config.secret);
 
       try {
-        await sequelize.query(`DELETE FROM movements WHERE walletIDWallets = ${IDWallet} AND userIDUsers=${dtoken.id}`, { type: QueryTypes.DELETE });
-        try {
-          let wallet = await Wallets.destroy({where: {IDWallets: IDWallet, userIDUsers: dtoken.id}})
-          if(wallet){
+        let wallet = await Wallets.destroy({where: {IDWallets: idw, userIDUsers: dtoken.id}})
+        if(wallet){
+          let movWallet = await sequelize.query(`DELETE FROM movements WHERE walletIDWallets = ${idw} AND userIDUsers=${dtoken.id}`, { type: QueryTypes.DELETE });
+          if(movWallet){
             res.status(200).send({message: "Monedero Borrado Exitosamente"})
           }
-        } catch (error) {
-          res.status(500).send({message: error})          
-        }
+            res.status(200).send({message: "Monedero Borrado Exitosamente"})
           
-      } catch (error) {        
+        }
+
+      } catch (error) {
         res.status(500).send({message: error})          
       }
 
 
-
     })()
-
-    
-    Wallets.destroy({
-      where: {IDWallets: IDWallet,
-              userIDUsers: dtoken.id}
-    }).then(result => {
-      if (result == 1) {
-        res.send({
-          message: "Cartera borrada exitosamente."
-        });
-      } else {
-        res.send({
-          message: `No se pudo borrar id=${id}. Quizas no existe.`
-        });
-      }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: err
-      });
-    });
   };
 
   let show = [
