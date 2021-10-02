@@ -47,7 +47,7 @@ module.exports = function(app) {
 
   //Delete a wallet
   app.delete(
-    "/api/wallets/delete/:id",
+    "/api/wallets/:id",
     [authJwt.verifyToken],
     controller.deleteWallet
   );
