@@ -115,7 +115,7 @@ const CurrencyTypes = db.currencyType;
       let dtoken = jwt.verify(token, config.secret);
 
       try {
-        await sequelize.query(`DELETE FROM movements WHERE walletIDWallets = ${IDWallet} AND userIDUsers=${dtoke.id}`, { type: QueryTypes.DELETE });
+        await sequelize.query(`DELETE FROM movements WHERE walletIDWallets = ${IDWallet} AND userIDUsers=${dtoken.id}`, { type: QueryTypes.DELETE });
         try {
           let wallet = await Wallets.destroy({where: {IDWallets: IDWallet, userIDUsers: dtoken.id}})
           if(wallet){
