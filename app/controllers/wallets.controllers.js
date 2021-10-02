@@ -114,9 +114,9 @@ const CurrencyTypes = db.currencyType;
       let token = req.headers['x-access-token']
       let dtoken = jwt.verify(token, config.secret);
 
-      await sequelize.query(`DELETE FROM movements WHERE walletIDWallets = ${IDWallet}`, { type: QueryTypes.DELETE });
-      await Wallets.destroy({where: IDWallet})
-      
+      await sequelize.query(`DELETE FROM movements WHERE walletIDWallets = ${IDWallet} AND userIDUsers=${dtoke.id}`, { type: QueryTypes.DELETE });
+      await Wallets.destroy({where: {IDWallets: IDWallet, userIDUsers: dtoken.id}})
+
     })()
 
     

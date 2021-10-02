@@ -173,10 +173,22 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
       });
   };
 
+
   // Update movemement
   exports.updateMovement = (req, res) => {
-    (async = () =>{
-      
+    (async () => {
+
+      const IDMovement = req.params.idMovement;
+      let token = req.headers['x-access-token']
+      let dtoken = jwt.verify(token, config.secret);
+
+      try {
+        let movement = await Movement.findOne({where: {IDMovements: IDMovement, userIDUsers: dtoken.id}, attributes: show, include: requierements})
+        let wallet = await Wallets.findOne({where: {userIDUsers: dtoken.id, Wallet}})
+      } catch (error) {
+        res.status(500).send(error)
+      }
+
     })()
   };
 

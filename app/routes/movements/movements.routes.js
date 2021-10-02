@@ -19,17 +19,10 @@ module.exports = function(app) {
 
   //Retrieve a movement
   app.get(
-    "/api/movements/:idWallet/:idMovement",
+    "/api/movements/:idMovement",
     [authJwt.verifyToken],
     controller.findOneMovement
   );
-
-  //Find One Movements
-  app.get(
-    "/api/movements/:idWallet/:idMovement/",
-    [authJwt.verifyToken],
-    controller.findOneMovement
-  )
   
   //Retrieve all movements
   app.get(
@@ -47,7 +40,7 @@ module.exports = function(app) {
 
   //Update a movement
   app.put(
-    "/api/movement/update/:idWallet/:idMovement",
+    "/api/movement/update/:idMovement",
     [authJwt.verifyToken],
     controller.updateMovement
   );
