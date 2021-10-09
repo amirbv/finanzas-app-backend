@@ -6,6 +6,7 @@ const Users = db.user;
 const Banks = db.banks;
 const Wallets = db.wallets;
 const CurrencyTypes = db.currencyType;
+const Movements = db.movements;
 
 //Create and save new Wallets
   exports.createWallet = (req, res) => {
@@ -50,7 +51,7 @@ const CurrencyTypes = db.currencyType;
         if(data){
           res.status(200).send(data);
         }else{
-          res.send({message: "Carteras no encontradas"});
+          res.status(404).send({message: "Carteras no encontradas"});
         }
       }).catch(err => {
         res.status(500).send({
@@ -70,40 +71,87 @@ const CurrencyTypes = db.currencyType;
         if(data){
           res.status(200).send(data);
         }else{
-          res.send({message: "Cartera no encontrada"});
+          res.status(404).send({message: "Cartera no encontrada"});
         }
       }).catch(err => {
         res.status(500).send({
           message:
-            err.message || "Ocurrio un error al mostrar el usuario"});
+            err.message || "Ocurrio un error al mostrar el monedero"});
       });
   };
 
   
   exports.updateWallet = (req, res) => {
-    const IDWallet = req.params.id;
-    let token = req.headers['x-access-token']
-    let dtoken = jwt.verify(token, config.secret);
+    (async () => {
+      const IDWallet = req.params.id;
+      let token = req.headers['x-access-token']
+      let dtoken = jwt.verify(token, config.secret);
+      let name, description, amount, bank, currency;
 
-    Wallets.update(req.body, {
-      where: {IDWallets:IDWallet,
-              userIDUsers: dtoken.id}
-    }).then(result => {
-      if (result == 1) {
-        res.send({
-          message: "Cartera actualizada."
-        });
-      } else {
-        res.send({
-          message: `No se pudo actualizar id=${id}. Quizas no existe o el req.body esta vacio`
-        });
+      try {
+        let findWallet = await db.sequelize.query(`
+        SELECT name, description, amount, bankIDBank, currencyTypeIDCurrencyType FROM wallets WHERE IDWallets = ${IDWallet} AND userIDUsers = ${dtoken.id}
+      `, { type: db.sequelize.QueryTypes.SELECT }); 
+
+        req.body.name === findWallet.name ? name = findWallet.name : name = req.body.name;
+        req.body.description === findWallet.description ? description = findWallet.description : description = req.body.description;
+        req.body.amount === findWallet.amount ? amount = findWallet.amount : amount = req.body.amount;
+        req.body.bank === findWallet.bankIDBank ? bank = findWallet.bankIDBank : bank = req.body.bank;
+        req.body.bank === findWallet.currencyTypeIDCurrencyType ? bank = findWallet.bankIDBank : bank = req.body.bank;
+
+        try {
+          let wallet = await db.sequelize.query(`
+          UPDATE wallets SET name = ${name}, description=${description}, amount=${amount}, bankIDBank=${bank}, currencyTypeIDCurrencyType=${currency} WHERE IDWallets = ${IDWallet} AND userIDUsers = ${dtoken.id}
+          `, { type: db.sequelize.QueryTypes.UPDATE });
+
+          try {
+            if(findWallet.amount < req.body.amount){
+              let result = Number.parseFloat(findWallet.amount) + Number.parseFloat(req.body.amount)
+              let movemement = await db.sequelize.query(`
+                INSERT INTO movements(userIDUsers, title, optionIDOptions, movementTypeIDMovementType, amount, walletIDWallets, conversionRateIDConversionRate, conversionAmount) VALUES (${dtoken.id},"Monto de modenero modificado",1,10,${result},${IDWallet},1,${result})
+            `, { type: db.sequelize.QueryTypes.INSERT });
+            }
+      
+            if(findWallet.amount > req.body.amount){
+              let result = Number.parseFloat(findWallet.amount) - Number.parseFloat(req.body.amount)
+              let movemement = await db.sequelize.query(`
+                INSERT INTO movements(userIDUsers, title, optionIDOptions, movementTypeIDMovementType, amount, walletIDWallets, conversionRateIDConversionRate, conversionAmount) VALUES (${dtoken.id},"Monto de modenero modificado",2,11,${result},${IDWallet},1,${result})
+            `, { type: db.sequelize.QueryTypes.INSERT });
+            }     
+          } catch (error) {
+            
+          }
+        } catch (error) {
+          console.log(error.response)
+        }
+
+
+      } catch (error) {
+        console.log(error.response)
       }
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: err
-      });
-    });
+
+    })()
+
+
+    // Wallets.update(req.body, {
+    //   where: {IDWallets:IDWallet,
+    //           userIDUsers: dtoken.id}
+    // }).then(result => {
+    //   if (result == 1) {
+    //     res.send({
+    //       message: "Cartera actualizada."
+    //     });
+    //   } else {
+    //     res.send({
+    //       message: `No se pudo actualizar id=${id}. Quizas no existe o el req.body esta vacio`
+    //     });
+    //   }
+    // })
+    // .catch(err => {
+    //   res.status(500).send({
+    //     message: err
+    //   });
+    // });
   };
 
   //Delete Wallet DELETE FROM `movements` WHERE `walletIDWallets` = ${WalletID}
