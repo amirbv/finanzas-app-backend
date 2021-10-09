@@ -24,11 +24,13 @@ module.exports = function(app) {
     controller.findOneMovement
   );
   
+  //Retrieve all movements dependencies
   app.get(
     "/api/movementsDependencies",
     [authJwt.verifyToken],
     controller.movementsDependencies
   );
+
   //Retrieve all movements
   app.get(
     "/api/movements/",
@@ -45,14 +47,14 @@ module.exports = function(app) {
 
   //Update a movement
   app.put(
-    "/api/movement/update/:idMovement",
+    "/api/movement/:idMovement",
     [authJwt.verifyToken],
     controller.updateMovement
   );
 
   //Delete a movement
   app.delete(
-    "/api/movement/delete/:idWallet/:idMovement",
+    "/api/movement/:idMovement",
     [authJwt.verifyToken],
     controller.deleteMovement
   );

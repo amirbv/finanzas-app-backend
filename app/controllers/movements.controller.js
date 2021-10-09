@@ -161,10 +161,10 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
   //Find a movement
   exports.findOneMovement = (req, res) => {
   const IDMovement = req.params.idMovement;
-  const IDWallet = req.params.idWallet;
+
   let token = req.headers['x-access-token']
   let dtoken = jwt.verify(token, config.secret);
-    Movements.findOne({where: {walletIDWallets: IDWallet, IDMovements: IDMovement, userIDUsers: dtoken.id}, attributes: show, include: requierements})
+    Movements.findOne({where: {IDMovements: IDMovement, userIDUsers: dtoken.id}, attributes: show, include: requierements})
       .then((data) => {
         if(data){
           res.status(200).send(data);
@@ -186,11 +186,25 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
       const IDMovement = req.params.idMovement;
       let token = req.headers['x-access-token']
       let dtoken = jwt.verify(token, config.secret);
+      let conversion, title, description, optionIDOptions, movementTypeIDMovementType, amount, conversionAmount, movement, wallet;
 
       try {
-        let movement = await Movement.findOne({where: {IDMovements: IDMovement, userIDUsers: dtoken.id}, attributes: show, include: requierements})
-        let wallet = await Wallets.findOne({where: {userIDUsers: dtoken.id, Wallet}})
-      } catch (error) {
+        let findMovement = await db.sequelize.query(`
+        SELECT * FROM movements WHERE IDMovements = ${IDMovement}
+      `, { type: db.sequelize.QueryTypes.SELECT });
+       
+        let findWallet = await db.sequelize.query(`
+        SELECT * FROM wallets WHERE IDMovements = ${IDMovement}
+      `, { type: db.sequelize.QueryTypes.SELECT });
+
+      req.body.title === findWallet.name ? name = findWallet.name : name = req.body.name;
+      req.body.description === findWallet.description ? description = findWallet.description : description = req.body.description;
+      req.body.amount === findWallet.amount ? amount = findWallet.amount : amount = req.body.amount;
+      req.body.optionIDOptions === findWallet.bankIDBank ? bank = findWallet.bankIDBank : bankIDBank = req.body.bankIDBank;
+      req.body.currencyTypeIDCurrencyType === findWallet.currencyTypeIDCurrencyType ? currencyTypeIDCurrencyType = findWallet.currencyTypeIDCurrencyType : currencyTypeIDCurrencyType = req.body.currencyTypeIDCurrencyType;
+
+
+    } catch (error) {
         res.status(500).send(error)
       }
 
@@ -213,10 +227,70 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
 
 
   //Delete Movement
-  exports.deleteMovement = (req, res) => {
-    (async = () =>{
+  exports.deleteMovement = async(req, res) => {
+      const IDMovement = req.params.idMovement;
+      let token = req.headers['x-access-token']
+      let dtoken = jwt.verify(token, config.secret);
 
-    })()
+        let findMovement = await db.sequelize.query(`
+        SELECT * FROM movements WHERE IDMovements = ${IDMovement} AND userIDUsers = ${dtoken.id}
+      `, { type: db.sequelize.QueryTypes.SELECT });
+
+        let findWallet = await db.sequelize.query(`
+        SELECT * FROM wallets WHERE IDWallets = ${findMovement[0].walletIDWallets} AND userIDUsers = ${dtoken.id}
+        `, { type: db.sequelize.QueryTypes.SELECT });
+
+        
+        if(findMovement[0].optionIDOptions == 1){
+          try {            
+            try {
+              let result = findWallet[0].amount - findMovement[0].amount
+              await db.sequelize.query(`
+              UPDATE wallets SET amount=${result} WHERE IDWallets = ${IDWallet} AND movements.userIDUsers = ${dtoken.id}
+            `, { type: db.sequelize.QueryTypes.UPDATE });
+              console.log(result)
+
+              await db.sequelize.query(`
+                DELETE FROM movements WHERE movements.walletIDWallets = ${IDWallet} AND movements.userIDUsers = ${dtoken.id}
+              `, { type: db.sequelize.QueryTypes.DELETE });
+              res.status(200).send({
+                message: "Movimiento eliminado con exito"
+              });                 
+            } catch (error) {
+              
+            }
+         
+          } catch (error) {
+            res.status(500).send({
+              message: error
+            })
+          }
+
+        }
+
+        if(findMovement[0].optionIDOptions == 2){
+          try {
+            let result = findWallet[0].amount + findMovement[0].amount
+            console.log(result)
+            db.sequelize.query(`
+              UPDATE wallets SET amount=${result} WHERE movements.walletIDWallets = ${IDWallet} AND movements.userIDUsers = ${dtoken.id}
+            `, { type: db.sequelize.QueryTypes.UPDATE });
+            
+            await db.sequelize.query(`
+              DELETE FROM movements WHERE movements.walletIDWallets = ${IDWallet} AND movements.userIDUsers = ${dtoken.id}
+            `, { type: db.sequelize.QueryTypes.DELETE });  
+            res.status(200).send({
+              message: "Movimiento eliminado con exito"
+            });
+          } catch (error) {
+            res.status(500).send({
+              message: error
+            })
+          }
+          
+        }       
+
+
   };
 
   let show = [
