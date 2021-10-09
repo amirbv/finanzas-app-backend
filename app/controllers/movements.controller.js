@@ -161,10 +161,10 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
   //Find a movement
   exports.findOneMovement = (req, res) => {
   const IDMovement = req.params.idMovement;
-  const IDWallet = req.params.idWallet;
+
   let token = req.headers['x-access-token']
   let dtoken = jwt.verify(token, config.secret);
-    Movements.findOne({where: {walletIDWallets: IDWallet, IDMovements: IDMovement, userIDUsers: dtoken.id}, attributes: show, include: requierements})
+    Movements.findOne({where: {IDMovements: IDMovement, userIDUsers: dtoken.id}, attributes: show, include: requierements})
       .then((data) => {
         if(data){
           res.status(200).send(data);
@@ -197,11 +197,11 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
         SELECT * FROM wallets WHERE IDMovements = ${IDMovement}
       `, { type: db.sequelize.QueryTypes.SELECT });
 
-      req.body.title === findWallet.name ? name = findWallet.name : name = req.body.name;
-      req.body.description === findWallet.description ? description = findWallet.description : description = req.body.description;
-      req.body.amount === findWallet.amount ? amount = findWallet.amount : amount = req.body.amount;
-      req.body.optionIDOptions === findWallet.bankIDBank ? bank = findWallet.bankIDBank : bankIDBank = req.body.bankIDBank;
+      req.body.title === findMovement.title ? title = findMovement.title : title = req.body.title;
+      req.body.description === findMovement.description ? description = findMovement.description : description = req.body.description;
+      req.body.optionIDOptions === findWallet.optionIDOptions ? optionIDOptions = findWallet.optionIDOptions : bankIDBank = req.body.bankIDBank;
       req.body.currencyTypeIDCurrencyType === findWallet.currencyTypeIDCurrencyType ? currencyTypeIDCurrencyType = findWallet.currencyTypeIDCurrencyType : currencyTypeIDCurrencyType = req.body.currencyTypeIDCurrencyType;
+      req.body.amount === findWallet.amount ? amount = findWallet.amount : amount = req.body.amount;
 
 
     } catch (error) {
