@@ -88,4 +88,22 @@
 
 ## Actualiza el monedero por id (SE REQUIERE EL ID DEL MONEDERO)
 
-"/api/wallets/update/:id"
+"/api/wallets/update/:id":{
+- name,
+- description,
+- amount,
+- bankIDBank,
+- currencyTypeIDCurrencyType 
+
+}
+
+## DELETE
+
+## Elimina el monedero y los movimientos por ID del monedero
+
+"/api/wallets/:id":{
+    Devuelve {
+        message: "Monedero eliminado exitosamente"
+    }
+
+}

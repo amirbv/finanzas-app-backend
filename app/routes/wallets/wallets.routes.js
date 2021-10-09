@@ -40,7 +40,7 @@ module.exports = function(app) {
 
   //Update a Wallet
   app.put(
-    "/api/wallets/update/:id",
+    "/api/wallets/:id",
     [authJwt.verifyToken],
     controller.updateWallet
   );
