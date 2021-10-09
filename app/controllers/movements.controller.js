@@ -132,7 +132,17 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
       console.log(IDWallet)
       let token = req.headers['x-access-token']
       let dtoken = jwt.verify(token, config.secret);
-      Movements.findAll({where: {walletIDWallets: IDWallet, userIDUsers: dtoken.id}, attributes: show})
+      Movements.findAll({where: {walletIDWallets: IDWallet, userIDUsers: dtoken.id}, attributes: show, include: [
+        {
+          model: Options,
+          as: "Options"
+        },
+
+        {
+          model: Wallets,
+          as: "Wallets"
+        }
+      ]})
       .then((data) => {
         if(data){
           res.status(200).send(data);
