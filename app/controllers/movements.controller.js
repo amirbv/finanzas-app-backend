@@ -245,11 +245,9 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
         if(findMovement[0].optionIDOptions == 1){
           try {            
               result = findWallet[0].amount - findMovement[0].amount
-              console.log(findMovement[0])
               await db.sequelize.query(`
               UPDATE wallets SET amount=${result} WHERE wallets.IDWallets = ${findMovement[0].walletIDWallets} AND wallets.userIDUsers = ${dtoken.id}
               `, { type: db.sequelize.QueryTypes.UPDATE });
-              
 
               await db.sequelize.query(`
                 DELETE FROM movements WHERE movements.walletIDWallets = ${findMovement[0].walletIDWallets} AND movements.userIDUsers = ${dtoken.id} AND IDMovements = ${IDMovement}
@@ -269,7 +267,7 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
         if(findMovement[0].optionIDOptions == 2){
           try {
             let result = findWallet[0].amount + findMovement[0].amount
-            console.log(result)
+
             db.sequelize.query(`
               UPDATE wallets SET amount=${result} WHERE wallets.IDWallets = ${findMovement[0].walletIDWallets} AND wallets.userIDUsers = ${dtoken.id}
             `, { type: db.sequelize.QueryTypes.UPDATE });
