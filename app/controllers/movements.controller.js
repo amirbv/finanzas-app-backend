@@ -161,10 +161,10 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
   //Find a movement
   exports.findOneMovement = (req, res) => {
   const IDMovement = req.params.idMovement;
-
+  const IDWallet = req.params.idWallet;
   let token = req.headers['x-access-token']
   let dtoken = jwt.verify(token, config.secret);
-    Movements.findOne({where: {IDMovements: IDMovement, userIDUsers: dtoken.id}, attributes: show, include: requierements})
+    Movements.findOne({where: {walletIDWallets: IDWallet, IDMovements: IDMovement, userIDUsers: dtoken.id}, attributes: show, include: requierements})
       .then((data) => {
         if(data){
           res.status(200).send(data);
@@ -231,6 +231,7 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
       const IDMovement = req.params.idMovement;
       let token = req.headers['x-access-token']
       let dtoken = jwt.verify(token, config.secret);
+      let result;
 
         let findMovement = await db.sequelize.query(`
         SELECT * FROM movements WHERE IDMovements = ${IDMovement} AND userIDUsers = ${dtoken.id}
@@ -243,22 +244,19 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
         
         if(findMovement[0].optionIDOptions == 1){
           try {            
-            try {
-              let result = findWallet[0].amount - findMovement[0].amount
+              result = findWallet[0].amount - findMovement[0].amount
+              console.log(findMovement[0])
               await db.sequelize.query(`
-              UPDATE wallets SET amount=${result} WHERE IDWallets = ${IDWallet} AND movements.userIDUsers = ${dtoken.id}
-            `, { type: db.sequelize.QueryTypes.UPDATE });
-              console.log(result)
+              UPDATE wallets SET amount=${result} WHERE wallets.IDWallets = ${findMovement[0].walletIDWallets} AND wallets.userIDUsers = ${dtoken.id}
+              `, { type: db.sequelize.QueryTypes.UPDATE });
+              
 
               await db.sequelize.query(`
-                DELETE FROM movements WHERE movements.walletIDWallets = ${IDWallet} AND movements.userIDUsers = ${dtoken.id}
+                DELETE FROM movements WHERE movements.walletIDWallets = ${findMovement[0].walletIDWallets} AND movements.userIDUsers = ${dtoken.id} AND IDMovements = ${IDMovement}
               `, { type: db.sequelize.QueryTypes.DELETE });
               res.status(200).send({
                 message: "Movimiento eliminado con exito"
               });                 
-            } catch (error) {
-              
-            }
          
           } catch (error) {
             res.status(500).send({
@@ -273,11 +271,11 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
             let result = findWallet[0].amount + findMovement[0].amount
             console.log(result)
             db.sequelize.query(`
-              UPDATE wallets SET amount=${result} WHERE movements.walletIDWallets = ${IDWallet} AND movements.userIDUsers = ${dtoken.id}
+              UPDATE wallets SET amount=${result} WHERE wallets.IDWallets = ${findMovement[0].walletIDWallets} AND wallets.userIDUsers = ${dtoken.id}
             `, { type: db.sequelize.QueryTypes.UPDATE });
             
             await db.sequelize.query(`
-              DELETE FROM movements WHERE movements.walletIDWallets = ${IDWallet} AND movements.userIDUsers = ${dtoken.id}
+              DELETE FROM movements WHERE movements.walletIDWallets = ${findMovement[0].walletIDWallets} AND movements.userIDUsers = ${dtoken.id} AND IDMovements = ${IDMovement}
             `, { type: db.sequelize.QueryTypes.DELETE });  
             res.status(200).send({
               message: "Movimiento eliminado con exito"
