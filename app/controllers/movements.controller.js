@@ -36,7 +36,7 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
               let conversionByUser = req.body.conversionByUser;
               let conversionAmount;
               if(conversionRate == 1){
-                conversionAmount = amount
+                conversionAmount = 0
               }else if(conversionRate == 2){
                 conversionAmount = amount / USD;
               }else if((conversionRate == 3) || (conversionRate == 5)){

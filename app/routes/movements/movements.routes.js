@@ -24,6 +24,9 @@ module.exports = function(app) {
     controller.findOneMovement
   );
   
+  app.get(
+    "/api/movementsDependencies",
+  );
   //Retrieve all movements
   app.get(
     "/api/movements/",
