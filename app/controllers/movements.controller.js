@@ -197,6 +197,20 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
     })()
   };
 
+  //Movements Dependencies
+  exports.movementsDependencies = async(req, res) => {
+    let options = await Options.findAll();
+    let movementType = await MovementType.findAll();
+    let conversionRate = await ConversionRates.findAll();
+    try {
+      res.status(200).send({options, movementType, conversionRate});
+    } catch (error) {
+      res.status(500).send({
+        message: error.message
+      })
+    }
+  }
+
 
   //Delete Movement
   exports.deleteMovement = (req, res) => {

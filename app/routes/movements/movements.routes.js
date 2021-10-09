@@ -26,6 +26,8 @@ module.exports = function(app) {
   
   app.get(
     "/api/movementsDependencies",
+    [authJwt.verifyToken],
+    controller.movementsDependencies
   );
   //Retrieve all movements
   app.get(
