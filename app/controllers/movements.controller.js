@@ -128,17 +128,12 @@ const url = 'https://s3.amazonaws.com/dolartoday/data.json';
   //find movements by wallet
   exports.findAllMovementsByWallets = (req, res) => {
     try {
-      const IDWallet = req.params.idWallet;
+      const IDWallet = req.params.id;
+      console.log(IDWallet)
       let token = req.headers['x-access-token']
       let dtoken = jwt.verify(token, config.secret);
       Movements.findAll({where: {walletIDWallets: IDWallet, userIDUsers: dtoken.id}, attributes: show, include: requierements})
       .then((data) => {
-        if(data.length === 0){
-          res.status(404).send({
-            message: "Movimientos no encontrados"
-          })
-        }
-
         if(data){
           res.status(200).send(data);
         }

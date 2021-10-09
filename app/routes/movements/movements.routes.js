@@ -33,7 +33,7 @@ module.exports = function(app) {
 
   //Retrieve a movement by wallets
   app.get(
-    "/api/movements/:idWallet",
+    "/api/movementsByWallet/:id",
     [authJwt.verifyToken],
     controller.findAllMovementsByWallets
   );
