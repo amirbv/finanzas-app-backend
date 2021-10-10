@@ -93,11 +93,11 @@ const Movements = db.movements;
         SELECT name, description, amount, bankIDBank, currencyTypeIDCurrencyType FROM wallets WHERE wallets.IDWallets = ${IDWallet} AND wallets.userIDUsers = ${dtoken.id}
       `, { type: db.sequelize.QueryTypes.SELECT }); 
 
-        req.body.name === findWallet.name ? name = findWallet.name : name = req.body.name;
-        req.body.description === findWallet.description ? description = findWallet.description : description = req.body.description;
-        req.body.amount === findWallet.amount ? amount = findWallet.amount : amount = req.body.amount;
-        req.body.bankIDBank === findWallet.bankIDBank ? bank = findWallet.bankIDBank : bankIDBank = req.body.bankIDBank;
-        req.body.currencyTypeIDCurrencyType === findWallet.currencyTypeIDCurrencyType ? currencyTypeIDCurrencyType = findWallet.currencyTypeIDCurrencyType : currencyTypeIDCurrencyType = req.body.currencyTypeIDCurrencyType;
+        req.body.name === findWallet[0].name ? name = findWallet[0].name : name = req.body.name;
+        req.body.description === findWallet[0].description ? description = findWallet[0].description : description = req.body.description;
+        req.body.amount === findWallet[0].amount ? amount = findWallet[0].amount : amount = req.body.amount;
+        req.body.bankIDBank === findWallet[0].bankIDBank ? bank = findWallet[0].bankIDBank : bankIDBank = req.body.bankIDBank;
+        req.body.currencyTypeIDCurrencyType === findWallet[0].currencyTypeIDCurrencyType ? currencyTypeIDCurrencyType = findWallet[0].currencyTypeIDCurrencyType : currencyTypeIDCurrencyType = req.body.currencyTypeIDCurrencyType;
 
         if(req.body.name === "" || req.body.description === "" || req.body.amount === "" || req.body.bankIDBank === "" || req.body.currencyTypeIDCurrencyType === ""){
           name = "";
