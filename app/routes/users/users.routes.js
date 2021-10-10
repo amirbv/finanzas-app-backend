@@ -38,4 +38,10 @@ module.exports = function(app) {
     [authJwt.verifyToken],
     controller.deleteUser
   );
+
+  //Send EmailUser
+  app.post(
+    "/api/users/sendEmail/",
+    controller.sendEmail
+  )
 };

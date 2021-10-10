@@ -215,3 +215,6 @@ const Movements = db.movements;
       as: "CurrencyType"
     }
   ];
+
+
+  
