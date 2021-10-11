@@ -39,9 +39,9 @@ module.exports = function(app) {
     controller.deleteUser
   );
 
-  //Send EmailUser
+  //Recover the user password
   app.post(
-    "/api/users/sendEmail/",
+    "/api/users/recover/",
     controller.sendEmail
   )
 };
