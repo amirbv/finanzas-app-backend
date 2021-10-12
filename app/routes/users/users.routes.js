@@ -10,6 +10,12 @@ module.exports = function(app) {
     next();
   });
 
+  // Retrieve all users
+  app.get(
+    "/api/allUsers/",
+    [authJwt.verifyToken, authJwt.isAdmin],
+    controller.findAllUsers
+  );
 
   //Retrieve a user
   app.get(
@@ -38,10 +44,4 @@ module.exports = function(app) {
     [authJwt.verifyToken],
     controller.deleteUser
   );
-
-  //Recover the user password
-  app.post(
-    "/api/users/recover/",
-    controller.sendEmail
-  )
 };

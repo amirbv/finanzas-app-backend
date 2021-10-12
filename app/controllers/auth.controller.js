@@ -65,6 +65,7 @@ exports.signin = (req, res) => {
       });
 
       var dtoken = jwt.verify(token, config.secret);
+      console.log(dtoken)
 
       res.status(200).send({
         id: user.IDUsers,
