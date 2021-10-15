@@ -173,6 +173,7 @@ const config = require("../config/auth.config");
   };
 
   let show = [
+    "IDUsers",
     "fullName",
     "email",
     "city",
