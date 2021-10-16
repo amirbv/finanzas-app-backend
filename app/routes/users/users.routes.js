@@ -46,8 +46,9 @@ module.exports = function(app) {
   );
 
   // Block user
-  app.put("/api/blockUser/:id",
+  app.put(
+    "/api/blockUser/:id",
     [authJwt.verifyToken, authJwt.isAdmin, authJwt.userIsBlocked],
-
+    controller.blockUser
   )
 };
