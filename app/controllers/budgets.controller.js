@@ -101,7 +101,7 @@ const BudgetDetails = db.budgetDetails;
         }else{
           try {
             await db.sequelize.query(`
-            UPDATE budgets SET name = "${title}", description="${description}" WHERE budgets.IDBudget = ${IDBdgt} AND budgets.userIDUsers = ${dtoken.id}
+            UPDATE budgets SET title = "${title}", description="${description}" WHERE budgets.IDBudget = ${IDBdgt} AND budgets.userIDUsers = ${dtoken.id}
             `, { type: db.sequelize.QueryTypes.UPDATE }).then(response => {
                 response ? res.status(200).send({message: "Presupuesto actualizado con exito"}) : res.status(500).send({message: "Ocurrio un error al mostrar los presupuestos"})
             });
