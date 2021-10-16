@@ -10,12 +10,15 @@ module.exports = function(app) {
     next();
   });
 
+<<<<<<< HEAD
   //Retrieve all users
   app.get(
     "/api/allUsers/",
     [authJwt.verifyToken, authJwt.isAdmin, authJwt.userIsBlocked],
     controller.findAllUsers
   );
+=======
+>>>>>>> parent of c2a691b (Se ha añadido Retrieve users.)
 
   //Retrieve a user
   app.get(
@@ -45,10 +48,17 @@ module.exports = function(app) {
     controller.deleteUser
   );
 
+<<<<<<< HEAD
   // Block user
   app.put(
     "/api/blockUser/:id",
     [authJwt.verifyToken, authJwt.isAdmin, authJwt.userIsBlocked],
     controller.blockUser
+=======
+  //Recover the user password
+  app.post(
+    "/api/users/recover/",
+    controller.sendEmail
+>>>>>>> parent of c2a691b (Se ha añadido Retrieve users.)
   )
 };

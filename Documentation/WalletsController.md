@@ -79,7 +79,8 @@
 - name, 
 - description, 
 - amount, 
-- bankIDBank
+- bankIDBank,
+- currencyTypeIDCurrencyType
 
 }
 

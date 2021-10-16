@@ -42,9 +42,11 @@ module.exports = (sequelize,Sequelize) =>{
         conversionRateIDConversionRate:{
             type: Sequelize.INTEGER,
             primaryKey: true,
+            defaultValue: 1
         },
         conversionAmount: {
-            type: Sequelize.FLOAT(10,2)
+            type: Sequelize.FLOAT(10,2),
+            defaultValue: 0
         }
     });
 

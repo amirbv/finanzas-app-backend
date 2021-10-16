@@ -1,5 +1,6 @@
 const db = require("../models/index.js");
 const bcrypt = require('bcryptjs');
+const nodemailer = require('nodemailer');
 const Users = db.user;
 const Roles = db.role;
 const States = db.state;
@@ -208,3 +209,51 @@ const config = require("../config/auth.config");
       as: "Role"
     }
   ];
+
+  exports.sendEmail = async(req, res) => {
+    let Email = req.body.email;
+    let User = await Users.findOne({where: {email: Email}})
+    var randomstring = Math.random().toString(36).substr(2, 8);
+    var hashedPassword = bcrypt.hashSync(randomstring, 8)
+
+    if(User){
+      await Users.update({
+        password: hashedPassword
+      },{where: {email: Email}}
+
+      )
+      let transporter = nodemailer.createTransport({
+        host: 'smtp.gmail.com',
+        port: 587,
+        secure: false,
+        requireTLS: true,
+        auth:{
+          user: 'pruebasfinancy@gmail.com',
+          pass: '@abc12345'
+        }
+      });
+  
+      let mailOptions = {
+        from: 'pruebasfinancy@gmail.com',
+        to: User.email,
+        subject: 'Financy: Recover Password',
+        text: `Tu contraseña se ha reseteado. Inicie sesión con la siguiente contraseña: ${randomstring} Se le recomienda cambiarla una vez este dentro de la app`
+      }
+
+      transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+          console.log(error)
+        }else{
+          res.status(200).send({
+            message: `Email enviado exitosamente ${info.response}`
+          })
+        }
+      });
+    }else{
+      res.status(404).send({
+        message: "Error. Usuario no encontrado"
+      })
+    }
+
+
+  };
