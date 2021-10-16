@@ -48,6 +48,7 @@ verifyToken = (req, res, next) => {
           next();
           return;
         }else{
+          console.log(user.isBlocked)
           res.status(403).send({
             message: "Su usuario fue bloqueado"
           });

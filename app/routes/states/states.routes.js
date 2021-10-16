@@ -13,14 +13,12 @@ module.exports = function(app) {
     //Retrieve all states
     app.get(
       "/api/states/",
-      [authJwt.userIsBlocked],
       controller.findAllStates
     );
 
     //Retrieve a state
     app.get(
       "/api/state/:id",
-      [authJwt.verifyToken, authJwt.isAdmin, authJwt.userIsBlocked],
       controller.findOneState
     );
 
