@@ -38,8 +38,8 @@ db.options = require("./options.model.js")(sequelize,Sequelize);
 db.movementType = require("./movementType.model.js")(sequelize, Sequelize);
 db.conversionRate = require("./conversionRate.model.js")(sequelize, Sequelize);
 db.movements = require("./movements.model.js")(sequelize, Sequelize);
-// db.budgets = require("./budgets.model.js")(sequelize, Sequelize);
-// db.budgetDetails = require("./budgetDetails.model.js")(sequelize, Sequelize);
+db.budgets = require("./budgets.model.js")(sequelize, Sequelize);
+db.budgetDetails = require("./budgetDetails.model.js")(sequelize, Sequelize);
 
 //Associations
 db.role.hasMany(db.user,{ as: "users"});
@@ -56,6 +56,10 @@ db.movementType.hasMany(db.movements, {as: "movements"});
 db.wallets.hasMany(db.movements, {as: "movements"});
 db.conversionRate.hasMany(db.movements, {as: "movements"});
 db.user.hasMany(db.movements, {as: "movements"});
+
+db.user.hasMany(db.budgets,{as: "budgets"})
+
+db.budgets.hasMany(db.budgetDetails, {as: "budgetDetails"})
 
 db.user.belongsTo(db.role, {
     foreignKey: "roleIDRoles",
@@ -111,10 +115,19 @@ db.movements.belongsTo(db.conversionRate, {
     as: "ConversionRates"
 });
 
-
 db.movements.belongsTo(db.user, {
     foreignKey: "userIDUsers",
     as: "User"
 });
+
+db.budgets.belongsTo(db.user, {
+    foreignKey: "userIDUsers",
+    as: "User"
+});
+
+db.budgetDetails.belongsTo(db.budgets, {
+    foreignKey: "budgetsIDBudget",
+    as: "Budget"
+})
 
 module.exports = db;

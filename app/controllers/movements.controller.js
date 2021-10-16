@@ -188,9 +188,7 @@ exports.updateMovement = (req, res) => {
     let token = req.headers["x-access-token"];
     let dtoken = jwt.verify(token, config.secret);
     let sumAmount,
-      sumToWallet,
       amountNegative,
-      amountWallet,
       conversion,
       title,
       description,
@@ -231,10 +229,16 @@ exports.updateMovement = (req, res) => {
         ? (movementTypeIDMovementType =
             findMovement[0].movementTypeIDMovementType)
         : (movementTypeIDMovementType = req.body.movementTypeIDMovementType);
-
+    
       req.body.amount === findMovement[0].amount
         ? (amount = findMovement[0].amount)
         : (amount = req.body.amount);
+
+        if (
+          findMovement[0].conversionRateIDConversionRate == 1
+        ){
+          newAmount = amount
+        }
 
       if (
         findMovement[0].conversionRateIDConversionRate == 2 ||
@@ -265,6 +269,8 @@ exports.updateMovement = (req, res) => {
             `,
             { type: db.sequelize.QueryTypes.UPDATE }
           );
+        console.log(newAmount)
+
 
           try {
             sumAmount = await db.sequelize.query(

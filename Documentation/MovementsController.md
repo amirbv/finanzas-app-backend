@@ -69,7 +69,7 @@
 
 ## Actualiza un movimiento, se requiere el id del movimiento por parametro
 
-"/api/movement/update/:idMovement"{
+"/api/movement/:idMovement"{
 - title
 - description
 - optionIDOptions
