@@ -92,7 +92,7 @@ const BudgetDetails = db.budgetDetails;
         req.body.title === findBudget[0].name ? title = findBudget[0].title : title = req.body.title;
         req.body.description === findBudget[0].description ? description = findBudget[0].description : description = req.body.description;
 
-        if(req.body.name === ""){
+        if(req.body.title === ""){
           title = "";
           description = "";
           res.status(400).send({
