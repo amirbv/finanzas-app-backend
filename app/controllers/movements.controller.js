@@ -265,12 +265,10 @@ exports.updateMovement = (req, res) => {
         try {
           await db.sequelize.query(
             `
-            UPDATE movements SET title='${title}',description='${description}',optionIDOptions=${optionIDOptions},movementTypeIDMovementType=${movementTypeIDMovementType},amount=${amount},conversionAmount=${newAmount} WHERE movements.IDMovements = ${IDMovement} AND movements.walletIDWallets = ${findMovement[0].walletIDWallets} AND movements.userIDUsers = ${dtoken.id}
+            UPDATE movements SET title='${title}',description='${description}',optionIDOptions=${Number.parseInt(optionIDOptions)},movementTypeIDMovementType=${Number.parseInt(movementTypeIDMovementType)},amount=${amount},conversionAmount=${newAmount} WHERE movements.IDMovements = ${IDMovement} AND movements.walletIDWallets = ${findMovement[0].walletIDWallets} AND movements.userIDUsers = ${dtoken.id}
             `,
             { type: db.sequelize.QueryTypes.UPDATE }
           );
-        console.log(newAmount)
-
 
           try {
             sumAmount = await db.sequelize.query(
