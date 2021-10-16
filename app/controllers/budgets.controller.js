@@ -77,7 +77,7 @@ const BudgetDetails = db.budgetDetails;
   };
 
   
-  exports.updateWallet = (req, res) => {
+  exports.updateBudget = (req, res) => {
     (async () => {
       const IDBdgt = req.params.id;
       let token = req.headers['x-access-token']
@@ -118,18 +118,18 @@ const BudgetDetails = db.budgetDetails;
     })()
   };
 
-  //Delete Wallet DELETE FROM `movements` WHERE `walletIDWallets` = ${WalletID}
-  exports.deleteWallet = (req, res) => {
+  //Delete Budget
+  exports.deleteBudget = (req, res) => {
     (async () => {
 
-      const idw = req.params.id;
+      const IDBdgt = req.params.id;
       let token = req.headers['x-access-token']
       let dtoken = jwt.verify(token, config.secret);
 
       try {
-        let wallet = await Wallets.destroy({where: {IDWallets: idw, userIDUsers: dtoken.id}})
+        let budget = await Budgets.destroy({where: {IDBudget: IDBdgt, userIDUsers: dtoken.id}})
         if(wallet){
-          let movWallet = await db.sequelize.query(`DELETE FROM movements WHERE walletIDWallets = ${idw} AND userIDUsers=${dtoken.id}`, { type: db.sequelize.QueryTypes.DELETE });
+          let movBudget = await db.sequelize.query(`DELETE FROM budgetdetails WHERE budgetIDBudget = ${IDBdgt} AND userIDUsers=${dtoken.id}`, { type: db.sequelize.QueryTypes.DELETE });
           if(movWallet){
             res.status(200).send({message: "Monedero Borrado Exitosamente"})
           }
