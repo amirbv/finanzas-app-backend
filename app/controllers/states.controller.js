@@ -16,7 +16,7 @@ exports.createState = (states) => {
 
 //Get the states
 exports.findAllStates = (req, res) => {
-  States.findAll({ order: ["name", "ASC"] })
+  States.findAll({ order: [["name", "ASC"]] })
     .then((data) => {
       res.status(200).send(data);
     })

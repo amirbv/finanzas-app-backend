@@ -44,10 +44,10 @@ verifyToken = (req, res, next) => {
           });
           return;
         }
-        if (user.isBlocked === 0) {
+        if (!user.isBlocked) {
           next();
           return;
-        }else{
+        } else {
           res.status(403).send({
             message: "Su usuario fue bloqueado"
           });
