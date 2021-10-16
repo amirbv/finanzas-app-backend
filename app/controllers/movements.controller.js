@@ -141,7 +141,7 @@ exports.findAllMovementsByWallets = (req, res) => {
           },
         ],
       },
-      { order: ["date", "ASC"] }
+      { order: ["date", "DESC"] }
     )
       .then((data) => {
         if (data) {
