@@ -10,7 +10,7 @@
 
 }
 
-## Devuelve un solo usuario
+## Devuelve un solo estado
 "/api/state/:id": {
 - IDStates
 - name 
