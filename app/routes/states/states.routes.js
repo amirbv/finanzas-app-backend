@@ -19,7 +19,6 @@ module.exports = function(app) {
     //Retrieve a state
     app.get(
       "/api/state/:id",
-      [authJwt.verifyToken, authJwt.isAdmin, authJwt.userIsBlocked],
       controller.findOneState
     );
 
