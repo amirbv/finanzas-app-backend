@@ -20,7 +20,7 @@ exports.createCurrencyType = (currencyType) => {
 
 //Get all currency types
   exports.findAllCurrencyType = (req, res) => {
-    CurrencyType.findAll({order: ['name', 'ASC']}).then(data => {
+    CurrencyType.findAll({order: [['name', 'ASC']]}).then(data => {
       res.status(200).send(data);
     }).catch(err => {
       res.status(500).send({
