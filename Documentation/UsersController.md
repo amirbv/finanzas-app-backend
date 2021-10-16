@@ -36,6 +36,11 @@ Devuelve al usuario
 
 }
 
+## Bloquear o desbloquear un usuario
+"/api/blockUser/:id": {
+  - isBlocked
+  
+}
 
 ## Actualizar contraseña del usuario
 
