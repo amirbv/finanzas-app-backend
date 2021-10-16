@@ -89,7 +89,7 @@ const BudgetDetails = db.budgetDetails;
         SELECT title, description, balance FROM budgets WHERE budgets.IDBudget = ${IDBdgt} AND budgets.userIDUsers = ${dtoken.id}
       `, { type: db.sequelize.QueryTypes.SELECT }); 
 
-        req.body.title === findBudget[0].name ? title = findBudget[0].title : title = req.body.title;
+        req.body.title === findBudget[0].title ? title = findBudget[0].title : title = req.body.title;
         req.body.description === findBudget[0].description ? description = findBudget[0].description : description = req.body.description;
 
         if(req.body.title === ""){

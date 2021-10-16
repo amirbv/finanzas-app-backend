@@ -126,7 +126,7 @@ db.budgets.belongsTo(db.user, {
 });
 
 db.budgetDetails.belongsTo(db.budgets, {
-    foreignKey: "budgetsIDBudget",
+    foreignKey: "budgetIDBudget",
     as: "Budget"
 })
 

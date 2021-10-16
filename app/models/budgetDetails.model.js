@@ -11,6 +11,11 @@ module.exports = (sequelize,Sequelize) =>{
         description:{
             type: Sequelize.STRING
         },
+        optionIDOptions:{
+            type: Sequelize.INTEGER(13),
+            primaryKey: true,
+            allowNull: false
+        },
         amount:{
             type: Sequelize.FLOAT(10,2)
         },
@@ -18,7 +23,7 @@ module.exports = (sequelize,Sequelize) =>{
             type: Sequelize.DATE,
             defaultValue: Sequelize.NOW
         },
-        budgetsIDBudget:{
+        budgetIDBudget:{
             type: Sequelize.INTEGER,
             primaryKey: true
         }
