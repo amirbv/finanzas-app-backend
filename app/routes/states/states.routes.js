@@ -15,5 +15,33 @@ module.exports = function(app) {
       "/api/states/",
       controller.findAllStates
     );
+
+    //Retrieve a state
+    app.get(
+      "/api/state/:id",
+      [authJwt.verifyToken, authJwt.isAdmin],
+      controller.findOneState
+    );
+
+    //Create a state
+    app.post(
+      "/api/state/",
+      [authJwt.verifyToken, authJwt.isAdmin],
+      controller.createState
+    );
+
+    //Update a state
+    app.put(
+      "/api/state/:id",
+      [authJwt.verifyToken, authJwt.isAdmin],
+      controller.updateState
+    );
+
+    //Delete a state
+    app.delete(
+      "/api/state/:id",
+      [authJwt.verifyToken, authJwt.isAdmin],
+      controller.deleteState
+    );
   
   };

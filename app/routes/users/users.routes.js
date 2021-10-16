@@ -10,7 +10,7 @@ module.exports = function(app) {
     next();
   });
 
-  // Retrieve all users
+  //Retrieve all users
   app.get(
     "/api/allUsers/",
     [authJwt.verifyToken, authJwt.isAdmin],
