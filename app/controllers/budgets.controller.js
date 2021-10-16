@@ -12,7 +12,7 @@ const BudgetDetails = db.budgetDetails;
     let token = req.headers['x-access-token']
     let dtoken = jwt.verify(token, config.secret);
     return Budgets.create({
-        title: req.body.name,
+        title: req.body.title,
         description: req.body.description,
         userIDUsers: dtoken.id
     })
