@@ -5,8 +5,6 @@
 ## Devuelve la lista de estados
 
 "/api/states": {
-
 - IDStates,
 - name 
-    
 }

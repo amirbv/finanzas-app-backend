@@ -38,6 +38,8 @@ db.options = require("./options.model.js")(sequelize,Sequelize);
 db.movementType = require("./movementType.model.js")(sequelize, Sequelize);
 db.conversionRate = require("./conversionRate.model.js")(sequelize, Sequelize);
 db.movements = require("./movements.model.js")(sequelize, Sequelize);
+db.budgets = require("./budgets.model.js")(sequelize, Sequelize);
+db.budgetDetails = require("./budgetDetails.model.js")(sequelize, Sequelize);
 
 //Associations
 db.role.hasMany(db.user,{ as: "users"});
