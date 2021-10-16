@@ -127,6 +127,7 @@ exports.findAllMovementsByWallets = (req, res) => {
     let dtoken = jwt.verify(token, config.secret);
     Movements.findAll(
       {
+        order: [['date', 'DESC']],
         where: { walletIDWallets: IDWallet, userIDUsers: dtoken.id },
         attributes: show,
         include: [
@@ -140,8 +141,7 @@ exports.findAllMovementsByWallets = (req, res) => {
             as: "Wallets",
           },
         ],
-      },
-      { order: ["date", "DESC"] }
+      }
     )
       .then((data) => {
         if (data) {
