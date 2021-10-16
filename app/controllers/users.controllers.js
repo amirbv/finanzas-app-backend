@@ -172,6 +172,22 @@ const config = require("../config/auth.config");
     });
   };
 
+  exports.blockUser = (req, res) => {
+    let id = req.params.id;
+    let isBlocked = req.body.isBlocked;
+
+    Users.update({
+      isBlocked: isBlocked, 
+    }, 
+      { where: { IDUsers: id }}
+    ).then(response => {
+      res.status(200).send({ message: isBlocked === 0 ? 'Usuario activo' : 'Usuario bloqueado'})
+    }
+    ).catch(err => {
+      res.status(500).send({message: err.response})
+    })
+  }
+
   let show = [
     "IDUsers",
     "fullName",

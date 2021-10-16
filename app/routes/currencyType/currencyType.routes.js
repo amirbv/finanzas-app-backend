@@ -13,35 +13,35 @@ module.exports = function (app) {
   //Retrieve all currency types
   app.get(
     "/api/currencies/",
-    [authJwt.verifyToken],
+    [authJwt.verifyToken, authJwt.userIsBlocked],
     controller.findAllCurrencyType
   );
 
   //Retrieve a currency
   app.get(
     "/api/currency/:id",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.isAdmin, authJwt.userIsBlocked],
     controller.findOneCurrency
   );
 
   //Create a currency
   app.post(
     "/api/currency/",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.isAdmin, authJwt.userIsBlocked],
     controller.createCurrency
   );
 
   //Update a currency
   app.put(
     "/api/currency/:id",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.isAdmin, authJwt.userIsBlocked],
     controller.updateCurrency
   );
 
   //Delete a currency
   app.delete(
     "/api/currency/:id",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.isAdmin, authJwt.userIsBlocked],
     controller.deleteCurrency
   );
 };

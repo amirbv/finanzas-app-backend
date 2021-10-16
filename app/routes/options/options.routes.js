@@ -13,7 +13,7 @@ module.exports = function(app) {
     //Retrieve all options
     app.get(
       "/api/options/",
-      [authJwt.verifyToken],
+      [authJwt.verifyToken, authJwt.userIsBlocked],
       controller.findAllOptions
     );
   

@@ -21,12 +21,12 @@ module.exports = function(app) {
   );
 
   //Signin a User
-  app.post("/api/auth/signin", controller.signin);
+  app.post("/api/auth/signin",[authJwt.userIsBlocked], controller.signin);
 
   //Signin a Admin
   app.post("/api/auth/signin/admin",
   [
-    authJwt.isAdmin
+    authJwt.isAdmin, authJwt.userIsBlocked
   ],
   controller.signin
   );

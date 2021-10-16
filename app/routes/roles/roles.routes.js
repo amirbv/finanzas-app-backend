@@ -13,7 +13,7 @@ module.exports = function(app) {
     //Retrieve all roles
     app.get(
       "/api/roles/",
-      [authJwt.verifyToken, authJwt.isAdmin],
+      [authJwt.verifyToken, authJwt.isAdmin, authJwt.userIsBlocked],
       controller.findAllRoles
     );
   

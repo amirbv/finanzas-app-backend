@@ -11,39 +11,43 @@ module.exports = function (app) {
   });
 
   //Retrieve all banks
-  app.get("/api/banks/", [authJwt.verifyToken], controller.findAllBanks);
+  app.get(
+    "/api/banks/",
+    [authJwt.verifyToken, authJwt.userIsBlocked],
+    controller.findAllBanks
+  );
 
   app.get(
     "/api/walletsDependencies/",
-    [authJwt.verifyToken],
+    [authJwt.verifyToken, authJwt.userIsBlocked],
     controller.findWalletDependencies
   );
 
   //Retrieve a bank
   app.get(
     "/api/bank/:id",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.isAdmin, authJwt.userIsBlocked],
     controller.findOneBank
   );
 
   //Create a bank
   app.post(
     "/api/bank/",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.isAdmin, authJwt.userIsBlocked],
     controller.createBank
   );
 
   //Update a bank
   app.put(
     "/api/bank/:id",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.isAdmin, authJwt.userIsBlocked],
     controller.updateBank
   );
 
   //Delete a bank
   app.delete(
     "/api/bank/:id",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.isAdmin, authJwt.userIsBlocked],
     controller.deleteBank
   );
 };

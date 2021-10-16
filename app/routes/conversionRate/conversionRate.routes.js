@@ -13,7 +13,7 @@ module.exports = function(app) {
     //Retrieve all movement types
     app.get(
       "/api/conversionRate/",
-      [authJwt.verifyToken],
+      [authJwt.verifyToken, authJwt.userIsBlocked],
       controller.findAllConversionRate
     );
   

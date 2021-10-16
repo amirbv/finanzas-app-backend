@@ -13,7 +13,7 @@ module.exports = function(app) {
     //Retrieve all countries
     app.get(
       "/api/countries/",
-      [authJwt.verifyToken],
+      [authJwt.verifyToken, authJwt.userIsBlocked],
       controller.findAllCountries
     );
   

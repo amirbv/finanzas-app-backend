@@ -13,35 +13,41 @@ module.exports = function(app) {
   //Retrieve all users
   app.get(
     "/api/allUsers/",
-    [authJwt.verifyToken, authJwt.isAdmin],
+    [authJwt.verifyToken, authJwt.isAdmin, authJwt.userIsBlocked],
     controller.findAllUsers
   );
 
   //Retrieve a user
   app.get(
     "/api/users/",
-    [authJwt.verifyToken],
+    [authJwt.verifyToken, authJwt.userIsBlocked],
     controller.findOneUser
   );
 
   //Update a User
   app.put(
     "/api/users/update/",
-    [authJwt.verifyToken],
+    [authJwt.verifyToken, authJwt.userIsBlocked],
     controller.updateUser
   );
 
   //Update a User Password
   app.put(
     "/api/users/updatePass/",
-    [authJwt.verifyToken],
+    [authJwt.verifyToken, authJwt.userIsBlocked],
     controller.updateUserPassword
   );
 
   //Delete a user
   app.delete(
     "/api/users/delete/",
-    [authJwt.verifyToken],
+    [authJwt.verifyToken, authJwt.userIsBlocked],
     controller.deleteUser
   );
+
+  // Block user
+  app.put("/api/blockUser/:id",
+    [authJwt.verifyToken, authJwt.isAdmin, authJwt.userIsBlocked],
+
+  )
 };
