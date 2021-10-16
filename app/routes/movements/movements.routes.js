@@ -40,37 +40,22 @@ module.exports = function(app) {
 
   //Retrieve a movement by wallets
   app.get(
-<<<<<<< HEAD
-    "/api/movements/:idWallet",
-    [authJwt.verifyToken, authJwt.userIsBlocked],
-=======
     "/api/movementsByWallet/:id",
-    [authJwt.verifyToken],
->>>>>>> parent of c2a691b (Se ha añadido Retrieve users.)
+    [authJwt.verifyToken, authJwt.userIsBlocked],
     controller.findAllMovementsByWallets
   );
 
   //Update a movement
   app.put(
-<<<<<<< HEAD
-    "/api/movement/update/:idMovement",
-    [authJwt.verifyToken, authJwt.userIsBlocked],
-=======
     "/api/movement/:idMovement",
-    [authJwt.verifyToken],
->>>>>>> parent of c2a691b (Se ha añadido Retrieve users.)
+    [authJwt.verifyToken, authJwt.userIsBlocked],
     controller.updateMovement
   );
 
   //Delete a movement
   app.delete(
-<<<<<<< HEAD
-    "/api/movement/delete/:idWallet/:idMovement",
-    [authJwt.verifyToken, authJwt.userIsBlocked],
-=======
     "/api/movement/:idMovement",
-    [authJwt.verifyToken],
->>>>>>> parent of c2a691b (Se ha añadido Retrieve users.)
+    [authJwt.verifyToken, authJwt.userIsBlocked],
     controller.deleteMovement
   );
 };

@@ -9,7 +9,7 @@ const CurrencyTypes = db.currencyType;
 const Movements = db.movements;
 
 //Create and save new Wallets
-  exports.createWallet = async(req, res) => {
+  exports.createWallet = (req, res) => {
     let token = req.headers['x-access-token']
     let dtoken = jwt.verify(token, config.secret);
     return Wallets.create({
@@ -22,21 +22,24 @@ const Movements = db.movements;
     })
       .then((data) => {
         res.status(200).send(data);
-        try {
-          await Movements.create({
-            optionIDOptions: data.amount >= 0 ? 1 : 2,
-            userIDUsers: dtoken.id,
-            title: 'Fondo inicial',
-            description: '',
-            movementTypeIDMovementType: data.amount >= 0 ? 10 : 11,
-            amount: data.amount >= 0 ? data.amount : data.amount * -1,
-            walletIDWallets: data.IDWallets,
-            conversionRateIDConversionRate: 1,
-            conversionAmount: 0.00
-        });
-        } catch (error) {
-          res.status(500).send(error.response);
-        }
+        (async() => {
+          try {
+            await Movements.create({
+              optionIDOptions: data.amount >= 0 ? 1 : 2,
+              userIDUsers: dtoken.id,
+              title: 'Fondo inicial',
+              description: '',
+              movementTypeIDMovementType: data.amount >= 0 ? 10 : 11,
+              amount: data.amount >= 0 ? data.amount : data.amount * -1,
+              walletIDWallets: data.IDWallets,
+              conversionRateIDConversionRate: 1,
+              conversionAmount: 0.00
+          });
+          } catch (error) {
+            res.status(500).send(error.response);
+          }
+        })()
+
       })
       .catch((err => {
         res.status(500).send({

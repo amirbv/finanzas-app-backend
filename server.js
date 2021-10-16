@@ -34,7 +34,6 @@ app.get("/", (req, res)=>{
 // routes
 require('./app/routes/auth.routes')(app);
 require('./app/routes/users/users.routes')(app);
-require('./app/routes/admin/admin.routes')(app);
 require('./app/routes/states/states.routes')(app);
 require('./app/routes/roles/roles.routes')(app);
 require('./app/routes/currencyType/currencyType.routes')(app);
@@ -45,8 +44,8 @@ require('./app/routes/options/options.routes')(app);
 require('./app/routes/movementType/movementType.routes')(app);
 require('./app/routes/conversionRate/conversionRate.routes')(app);
 require('./app/routes/movements/movements.routes')(app);
-require('./app/routes/budgets/budgets.routes')(app);
-require('./app/routes/budgetDetails/budgetDetails.routes')(app);
+// require('./app/routes/budgets/budgets.routes')(app);
+// require('./app/routes/budgetDetails/budgetDetails.routes')(app);
 
 //Set port, listen for request
 const PORT = process.env.PORT || 4000;
