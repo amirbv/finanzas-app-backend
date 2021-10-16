@@ -128,7 +128,7 @@ const BudgetDetails = db.budgetDetails;
 
       try {
         let budget = await Budgets.destroy({where: {IDBudget: IDBdgt, userIDUsers: dtoken.id}})
-        if(wallet){
+        if(budget){
           let budgetDet = await db.sequelize.query(`DELETE FROM budgetdetails WHERE budgetIDBudget = ${IDBdgt} AND userIDUsers=${dtoken.id}`, { type: db.sequelize.QueryTypes.DELETE });
           if(budgetDet){
             res.status(200).send({message: "Monedero Borrado Exitosamente"})
