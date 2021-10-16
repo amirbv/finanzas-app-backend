@@ -129,8 +129,8 @@ const BudgetDetails = db.budgetDetails;
       try {
         let budget = await Budgets.destroy({where: {IDBudget: IDBdgt, userIDUsers: dtoken.id}})
         if(wallet){
-          let movBudget = await db.sequelize.query(`DELETE FROM budgetdetails WHERE budgetIDBudget = ${IDBdgt} AND userIDUsers=${dtoken.id}`, { type: db.sequelize.QueryTypes.DELETE });
-          if(movWallet){
+          let budgetDet = await db.sequelize.query(`DELETE FROM budgetdetails WHERE budgetIDBudget = ${IDBdgt} AND userIDUsers=${dtoken.id}`, { type: db.sequelize.QueryTypes.DELETE });
+          if(budgetDet){
             res.status(200).send({message: "Monedero Borrado Exitosamente"})
           }
             res.status(200).send({message: "Monedero Borrado Exitosamente"})
@@ -139,7 +139,6 @@ const BudgetDetails = db.budgetDetails;
         console.log(error)
         res.status(500).send({message: error})          
       }
-
 
     })()
   };
