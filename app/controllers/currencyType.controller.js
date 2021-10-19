@@ -39,7 +39,7 @@ const CurrencyType = db.currencyType;
       symbol: req.body.symbol,
       letterSymbol: req.body.letterSymbol
     })
-      .then((data) => res.status(200).send(data))
+      .then((data) => res.status(200).send({message: "Divisa creada con exito"}))
       .catch(err => {
         res.status(500).send({ message: err.message });
       });
