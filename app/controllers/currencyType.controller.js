@@ -2,21 +2,6 @@ const { currencyType } = require("../models/index.js");
 const db = require("../models/index.js");
 const CurrencyType = db.currencyType;
 
-//Create currency type
-exports.createCurrencyType = (currencyType) => {
-    return CurrencyType.create({
-      name: currencyType.name,
-      symbol: currencyType.symbol,
-      letterSymbol: currencyType.letterSymbol
-    })
-      .then((currencyType) => {
-        console.log(">> Tipo de divisa creada: " + JSON.stringify(currencyType, null, 4));
-        return currencyType;
-      })
-      .catch((err) => {
-        console.log(">> Error mientras se creaba la divisa: ", err);
-      });
-  };
 
 //Get all currency types
   exports.findAllCurrencyType = (req, res) => {
@@ -49,7 +34,7 @@ exports.createCurrencyType = (currencyType) => {
 
   //Create currency
   exports.createCurrency = (req, res) => {
-    States.create({
+    CurrencyType.create({
       name: req.body.name,
       symbol: req.body.symbol,
       letterSymbol: req.body.letterSymbol
@@ -108,7 +93,7 @@ exports.createCurrencyType = (currencyType) => {
   // Delete currency
   exports.deleteCurrency = (req, res) => {
     let IDCurrency = req.params.id;
-    States.destroy({
+    CurrencyType.destroy({
       where: {IDCurrencyType:IDCurrency}
     }).then(result => {
       if (result == 1) {
