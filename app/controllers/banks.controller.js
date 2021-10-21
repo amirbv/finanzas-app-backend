@@ -29,10 +29,7 @@ exports.createBank = (req, res) => {
     photoURL: req.body.photoURL,
     countryIDCountries: req.body.country,
   })
-    .then(
-      res.status(200).send({
-        message: "Banco creado con exito",
-      }))
+    .then((data) => res.status(200).send(data)
     .catch((err) => {
       res.status(500).send({ message: err.message });
     })
