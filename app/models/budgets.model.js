@@ -12,7 +12,8 @@ module.exports = (sequelize,Sequelize) =>{
             type: Sequelize.STRING
         },
         balance:{
-            type: Sequelize.FLOAT(10,2)
+            type: Sequelize.FLOAT(10,2),
+            defaultValue: 0.00
         },
         date:{
             type: Sequelize.DATE,
