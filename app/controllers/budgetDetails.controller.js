@@ -28,7 +28,8 @@ const BudgetDetails = db.budgetDetails;
         description: req.body.description,
         optionIDOptions: op,
         amount: amount,
-        budgetsIDBudget: IDBdgt
+        budgetIDBudget: IDBdgt,
+        date: req.body.date
     })
       .then((data) => {
         (async () => {
@@ -237,6 +238,10 @@ const BudgetDetails = db.budgetDetails;
       }
     }
   };
+
+  exports.BudgetDetailsToMovements = async(req, res) => {
+
+  }
 
   let show = [
     "IDBudgetDetails",
