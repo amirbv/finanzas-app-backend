@@ -83,7 +83,7 @@ const BudgetDetails = db.budgetDetails;
       const IDBdgt = req.params.id;
       let token = req.headers['x-access-token']
       let dtoken = jwt.verify(token, config.secret);
-      let title, description, balance, notificationDate;
+      let title, description, balance;
 
       try {
         let findBudget = await db.sequelize.query(`
@@ -92,7 +92,6 @@ const BudgetDetails = db.budgetDetails;
 
         req.body.title === findBudget[0].title ? title = findBudget[0].title : title = req.body.title;
         req.body.description === findBudget[0].description ? description = findBudget[0].description : description = req.body.description;
-        req.body.notificationDate === findBudget[0].notificationDate ? notificationDate = findBudget[0].notificationDate : notificationDate = req.body.notificationDate
         if(req.body.title === ""){
           res.status(400).send({
             message: "Error. Campos vacios"
@@ -100,7 +99,7 @@ const BudgetDetails = db.budgetDetails;
         }else{
           try {
             await db.sequelize.query(`
-            UPDATE budgets SET title = "${title}", description="${description}", notificationDate="${notificationDate}" WHERE budgets.IDBudget = ${IDBdgt} AND budgets.userIDUsers = ${dtoken.id}
+            UPDATE budgets SET title = "${title}", description="${description}" WHERE budgets.IDBudget = ${IDBdgt} AND budgets.userIDUsers = ${dtoken.id}
             `, { type: db.sequelize.QueryTypes.UPDATE }).then(response => {
                 response ? res.status(200).send({message: "Presupuesto actualizado con exito"}) : res.status(500).send({message: "Ocurrio un error al mostrar los presupuestos"})
             });
