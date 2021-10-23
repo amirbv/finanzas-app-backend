@@ -199,7 +199,7 @@ const BudgetDetails = db.budgetDetails;
         try {
           let budget = await Budgets.destroy({where: {IDBudget: IDBgt, userIDUsers: dtoken.id}})
           if(budget){
-            let budgetDet = await db.sequelize.query(`DELETE FROM budgetdetails WHERE budgetdetails.budgetsIDBudget = ${IDBgt}`, { type: db.sequelize.QueryTypes.DELETE });
+            let budgetDet = await db.sequelize.query(`DELETE FROM budgetdetails WHERE budgetdetails.budgetIDBudget = ${IDBgt}`, { type: db.sequelize.QueryTypes.DELETE });
             if(budgetDet){
               res.status(200).send({message: "Presupuesto añadido exitosamente"})
             }
@@ -209,8 +209,7 @@ const BudgetDetails = db.budgetDetails;
           console.log(error)
           res.status(500).send({message: error})          
         }
-  
-        res.send({message:"Hola"})
+
       } catch (error) {
         res.send({message: error})
       }
