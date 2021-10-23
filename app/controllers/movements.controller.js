@@ -462,7 +462,7 @@ exports.deleteMovement = async (req, res) => {
 
   if (findMovement[0].optionIDOptions == 2) {
     try {
-      let result = findWallet[0].amount + findMovement[0].amount;
+      let result = findWallet[0].amount + (findMovement[0].amount * -1);
 
       db.sequelize.query(
         `

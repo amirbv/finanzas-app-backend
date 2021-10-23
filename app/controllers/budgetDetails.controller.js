@@ -163,30 +163,80 @@ const BudgetDetails = db.budgetDetails;
     })()
   };
 
-//   //Delete Budget
-//   exports.deleteBudget = (req, res) => {
-//     (async () => {
-
-//       const IDBdgt = req.params.id;
-//       let token = req.headers['x-access-token']
-//       let dtoken = jwt.verify(token, config.secret);
-
-//       try {
-//         let budget = await Budgets.destroy({where: {IDBudget: IDBdgt, userIDUsers: dtoken.id}})
-//         if(budget){
-//           let budgetDet = await db.sequelize.query(`DELETE FROM budgetdetails WHERE budgetsIDBudget = ${IDBdgt}`, { type: db.sequelize.QueryTypes.DELETE });
-//           if(budgetDet){
-//             res.status(200).send({message: "Monedero Borrado Exitosamente"})
-//           }
-//             res.status(200).send({message: "Monedero Borrado Exitosamente"})
-//         }
-//       } catch (error) {
-//         console.log(error)
-//         res.status(500).send({message: error})          
-//       }
-
-//     })()
-//   };
+  //Delete Budget Details
+  exports.deleteBudgetDetails = async(req, res) => {
+    const IDBudgetDetail = req.params.id;
+    let token = req.headers["x-access-token"];
+    let dtoken = jwt.verify(token, config.secret);
+    let result;
+  
+    let findBD = await db.sequelize.query(
+      `
+          SELECT * FROM budgetdetails WHERE IDBudgetDetails = ${IDBudgetDetail}
+        `,
+      { type: db.sequelize.QueryTypes.SELECT }
+    );
+  
+    let findB = await db.sequelize.query(
+      `
+          SELECT * FROM budgets WHERE IDBudget = ${findBD[0].budgetIDBudget} AND userIDUsers = ${dtoken.id}
+          `,
+      { type: db.sequelize.QueryTypes.SELECT }
+    );
+  
+    if (findBD[0].optionIDOptions == 1) {
+      try {
+        result = findB[0].balance - findBD[0].amount;
+        await db.sequelize.query(
+          `
+                UPDATE budgets SET balance=${result} WHERE budgets.IDBudget = ${findBD[0].budgetIDBudget} AND budgets.userIDUsers = ${dtoken.id}
+                `,
+          { type: db.sequelize.QueryTypes.UPDATE }
+        );
+  
+        await db.sequelize.query(
+          `
+                  DELETE FROM budgetdetails WHERE budgetdetails.budgetIDBudget = ${findBD[0].budgetIDBudget} AND IDBudgetDetails = ${IDBudgetDetail}
+                `,
+          { type: db.sequelize.QueryTypes.DELETE }
+        );
+        res.status(200).send({
+          message: "Detalle de presupuesto eliminado con exito",
+        });
+      } catch (error) {
+        res.status(500).send({
+          message: error,
+        });
+      }
+    }
+  
+    if (findBD[0].optionIDOptions == 2) {
+      try {
+        let result = findB[0].balance + (findBD[0].amount * -1);
+  
+        db.sequelize.query(
+          `
+                UPDATE budgets SET balance=${result} WHERE budgets.IDBudget = ${findBD[0].budgetIDBudget} AND budgets.userIDUsers = ${dtoken.id}
+              `,
+          { type: db.sequelize.QueryTypes.UPDATE }
+        );
+  
+        await db.sequelize.query(
+          `
+                DELETE FROM budgetdetails WHERE budgetdetails.budgetIDBudget = ${findBD[0].budgetIDBudget} AND IDBudgetDetails = ${IDBudgetDetail}
+              `,
+          { type: db.sequelize.QueryTypes.DELETE }
+        );
+        res.status(200).send({
+          message: "Detalle de presupuesto eliminado con exito",
+        });
+      } catch (error) {
+        res.status(500).send({
+          message: error,
+        });
+      }
+    }
+  };
 
   let show = [
     "IDBudgetDetails",
