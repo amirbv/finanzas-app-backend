@@ -18,6 +18,10 @@ module.exports = (sequelize,Sequelize) =>{
             type: Sequelize.DATE,
             defaultValue: Sequelize.NOW
         },
+        notificationDate:{
+            type: Sequelize.DATE,
+            allowNull: true
+        },
         userIDUsers:{
             type: Sequelize.INTEGER,
             primaryKey: true
