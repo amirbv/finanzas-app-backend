@@ -161,19 +161,19 @@ const BudgetDetails = db.budgetDetails;
   };
 
   exports.BudgetDetailsToMovements = async(req, res) => {
-    const IDBudget = req.params.id;
+    const IDBgt = req.params.id;
     let token = req.headers["x-access-token"];
     let dtoken = jwt.verify(token, config.secret);
     let wallet = req.body.wallet;
     let findBD = await db.sequelize.query(
       `
-        SELECT * FROM budgetdetails WHERE budgetIDBudget = ${IDBudget}
+        SELECT * FROM budgetdetails WHERE budgetIDBudget = ${IDBgt}
       `,
       { type: db.sequelize.QueryTypes.SELECT }
     );
     let findB = await db.sequelize.query(
       `
-        SELECT title, balance FROM budgets WHERE IDBudget = ${IDBudget} AND userIDUsers=${dtoken.id}
+        SELECT title, balance FROM budgets WHERE IDBudget = ${IDBgt} AND userIDUsers=${dtoken.id}
       `,
       { type: db.sequelize.QueryTypes.SELECT }
     );
@@ -196,6 +196,20 @@ const BudgetDetails = db.budgetDetails;
           `UPDATE wallets SET amount=${result} WHERE wallets.IDWallets = ${wallet} AND wallets.userIDUsers = ${dtoken.id}`,
           { type: db.sequelize.QueryTypes.UPDATE }
         );
+        try {
+          let budget = await Budgets.destroy({where: {IDBudget: IDBgt, userIDUsers: dtoken.id}})
+          if(budget){
+            let budgetDet = await db.sequelize.query(`DELETE FROM budgetdetails WHERE budgetsIDBudget = ${IDBgt}`, { type: db.sequelize.QueryTypes.DELETE });
+            if(budgetDet){
+              res.status(200).send({message: "Presupuesto añadido exitosamente"})
+            }
+              res.status(200).send({message: "Presupuesto añadido exitosamente"})
+          }
+        } catch (error) {
+          console.log(error)
+          res.status(500).send({message: error})          
+        }
+  
         res.send({message:"Hola"})
       } catch (error) {
         res.send({message: error})
