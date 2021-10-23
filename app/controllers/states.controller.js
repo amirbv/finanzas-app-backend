@@ -1,19 +1,6 @@
 const db = require("../models/index.js");
 const States = db.state;
 
-exports.createState = (states) => {
-  return States.create({
-    name: states.name,
-  })
-    .then((states) => {
-      console.log(">> Estado creado: " + JSON.stringify(states, null, 4));
-      return states;
-    })
-    .catch((err) => {
-      console.log(">> Error mientras se creaba el estado: ", err);
-    });
-};
-
 //Get the states
 exports.findAllStates = (req, res) => {
   States.findAll({ order: [["name", "ASC"]] })
