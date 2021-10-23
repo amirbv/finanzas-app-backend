@@ -45,10 +45,10 @@ module.exports = function(app) {
     controller.updateBudgetDetails
   );
 
-//   //Delete a wallet
-//   app.delete(
-//     "/api/budgets/:id",
-//     [authJwt.verifyToken],
-//     controller.deleteBudget
-//   );
+  //Delete a wallet
+  app.delete(
+    "/api/budgetDetails/:id",
+    [authJwt.verifyToken],
+    controller.deleteBudgetDetails
+  );
 };
