@@ -245,14 +245,6 @@ const BudgetDetails = db.budgetDetails;
     }
   };
 
-  exports.BudgetDetailsToMovements = async(req, res) => {
-    const IDBudgetDetail = req.params.id;
-    let token = req.headers["x-access-token"];
-    let dtoken = jwt.verify(token, config.secret);
-
-    
-  }
-
   let show = [
     "IDBudgetDetails",
     "title",

@@ -142,6 +142,68 @@ const BudgetDetails = db.budgetDetails;
     })()
   };
 
+  //Movements Dependencies
+  exports.walletsToShow = async (req, res) => {
+    let token = req.headers["x-access-token"];
+    let dtoken = jwt.verify(token, config.secret);
+    let wallet = await db.sequelize.query(
+      `
+        SELECT IDWallets, name FROM wallets WHERE userIDUsers = ${dtoken.id}
+      `,
+      { type: db.sequelize.QueryTypes.SELECT }
+    );
+    try {
+      res.status(200).send(wallet);
+    } catch (error) {
+      res.status(500).send({
+        message: error.message,
+      });
+    }
+  };
+
+  exports.BudgetDetailsToMovements = async(req, res) => {
+    const IDBudget = req.params.id;
+    let token = req.headers["x-access-token"];
+    let dtoken = jwt.verify(token, config.secret);
+    let wallet = req.body.wallet;
+    let findBD = await db.sequelize.query(
+      `
+        SELECT * FROM budgetdetails WHERE budgetIDBudget = ${IDBudget}
+      `,
+      { type: db.sequelize.QueryTypes.SELECT }
+    );
+    let findB = await db.sequelize.query(
+      `
+        SELECT title, balance FROM budgets WHERE IDBudget = ${IDBudget} AND userIDUsers=${dtoken.id}
+      `,
+      { type: db.sequelize.QueryTypes.SELECT }
+    );
+      
+    let findW = await db.sequelize.query(
+      `
+        SELECT amount FROM wallets WHERE wallets.IDWallets = ${wallet}
+      `,
+      { type: db.sequelize.QueryTypes.SELECT }
+    );
+      try {
+        findBD.forEach(async(element) => {
+          await db.sequelize.query(
+          `INSERT INTO movements(userIDUsers, title, description, optionIDOptions, movementTypeIDMovementType, amount,date, walletIDWallets, conversionRateIDConversionRate, conversionAmount) VALUES (${dtoken.id},"${element.title}","${element.description} (${findB[0].title})",${element.optionIDOptions},12,${element.amount}, NOW(),${wallet},1,${element.amount})`,
+          { type: db.sequelize.QueryTypes.INSERT }
+          );
+        })
+        let result = findW[0].amount + findB[0].balance;
+        await db.sequelize.query(
+          `UPDATE wallets SET amount=${result} WHERE wallets.IDWallets = ${wallet} AND wallets.userIDUsers = ${dtoken.id}`,
+          { type: db.sequelize.QueryTypes.UPDATE }
+        );
+        res.send({message:"Hola"})
+      } catch (error) {
+        res.send({message: error})
+      }
+
+  }
+
   let show = [
     "IDBudget",
     "title",

@@ -38,6 +38,12 @@ module.exports = function(app) {
     controller.findAllBudgetsByUsers
   );
 
+  app.get(
+    "/api/walletsToShow/",
+    [authJwt.verifyToken],
+    controller.walletsToShow
+  )
+
   //Update a Wallet
   app.put(
     "/api/budgets/:id",
@@ -51,4 +57,10 @@ module.exports = function(app) {
     [authJwt.verifyToken],
     controller.deleteBudget
   );
+
+  app.post(
+    "/api/budgetToMov/:id",
+    [authJwt.verifyToken],
+    controller.BudgetDetailsToMovements
+  )
 };
