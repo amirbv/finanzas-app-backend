@@ -1,7 +1,7 @@
 const db = require("../models/index.js");
 const MovementType = db.movementType;
 
-exports.createMovementType = () => {
+exports.createMovementType = (req, res) => {
 
   MovementType.create({
     name: req.body.name,
