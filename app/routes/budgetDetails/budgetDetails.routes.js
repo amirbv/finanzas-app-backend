@@ -33,7 +33,7 @@ module.exports = function(app) {
 
   //Retrieve budgets details by user
   app.get(
-    "/api/budgetDetailsByBudget/",
+    "/api/budgetDetailsByBudget/:id",
     [authJwt.verifyToken],
     controller.findAllBudgetsDetailsByBudget
   );
