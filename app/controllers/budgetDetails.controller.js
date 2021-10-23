@@ -41,7 +41,13 @@ const BudgetDetails = db.budgetDetails;
                     if(response[0].balance === null){
                         sum = 0 + req.body.amount;
                     }else{
+                      if(req.body.option == 1){
                         sum = response[0].balance + req.body.amount;
+                      }
+                      if(req.body.option == 2){
+                        sum = response[0].balance - req.body.amount;
+                      }                     
+                        
                     }
                     await db.sequelize.query(`
                     UPDATE budgets SET balance = ${sum} WHERE budgets.IDBudget = ${IDBdgt}
@@ -75,10 +81,10 @@ const BudgetDetails = db.budgetDetails;
   exports.findAllBudgetsDetailsByBudget = (req, res) => {
     let token = req.headers['x-access-token']
     let dtoken = jwt.verify(token, config.secret);
-
+    let idb = req.params.id;
     Budgets.findAll({where: {userIDUsers: dtoken.id}})
       .then((data) => {
-        BudgetDetails.findAll({where: {budgetIDBudget: data[0].IDBudget}})
+        BudgetDetails.findAll({where: {budgetIDBudget: idb}})
         .then((response) => res.status(200).send(response))
       }).catch(err => {
         res.status(500).send({
