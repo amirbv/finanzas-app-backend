@@ -1,17 +1,19 @@
 const db = require("../models/index.js");
 const MovementType = db.movementType;
 
-exports.createMovementType = (movementType) => {
-    return MovementType.create({
-      name: movementType.name
-    })
-      .then((movementType) => {
-        console.log(">> Tipo de movimiento creado: " + JSON.stringify(movementType, null, 4));
-        return options;
-      })
-      .catch((err) => {
-        console.log(">> Error mientras se creaba el tipo de movimiento: ", err);
+exports.createMovementType = () => {
+
+  MovementType.create({
+    name: req.body.name,
+  })
+    .then((response) => {
+      res.status(200).send({
+        message: "Tipo de movimiento creado con exito",
       });
+    })
+    .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
   };
 
 //Get the movements types
@@ -86,7 +88,7 @@ exports.deleteMovementType = (req, res) => {
   let IDMovementTypes = req.params.id;
 
   MovementType.destroy({
-    where: { IDMovementTypes: IDMovementTypes },
+    where: { IDMovementType: IDMovementTypes },
   })
     .then((result) => {
       if (result == 1) {
