@@ -40,14 +40,14 @@ module.exports = function(app) {
 
   //Update a budget detail
   app.put(
-    "/api/budgetDetails/:id",
+    "/api/budgetDetail/:id",
     [authJwt.verifyToken],
     controller.updateBudgetDetails
   );
 
   //Delete a wallet
   app.delete(
-    "/api/budgetDetails/:id",
+    "/api/budgetDetail/:id",
     [authJwt.verifyToken],
     controller.deleteBudgetDetails
   );
