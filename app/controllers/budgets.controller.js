@@ -11,10 +11,12 @@ const BudgetDetails = db.budgetDetails;
   exports.createBudget = (req, res) => {
     let token = req.headers['x-access-token']
     let dtoken = jwt.verify(token, config.secret);
+    let notificationDate = req.body.notificationDate;
+    
     return Budgets.create({
         title: req.body.title,
         description: req.body.description,
-        notificationDate: req.body.notificationDate,
+        notificationDate: notificationDate.split('-').reverse().join(),
         userIDUsers: dtoken.id
     })
       .then((data) => {
