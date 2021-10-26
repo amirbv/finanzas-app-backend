@@ -117,9 +117,8 @@ const Movements = db.movements;
         req.body.bankIDBank === findWallet[0].bankIDBank ? bank = findWallet[0].bankIDBank : bankIDBank = req.body.bankIDBank;
         req.body.currencyTypeIDCurrencyType === findWallet[0].currencyTypeIDCurrencyType ? currencyTypeIDCurrencyType = findWallet[0].currencyTypeIDCurrencyType : currencyTypeIDCurrencyType = req.body.currencyTypeIDCurrencyType;
 
-        if(req.body.name === "" || req.body.description === "" || req.body.amount === "" || req.body.bankIDBank === "" || req.body.currencyTypeIDCurrencyType === ""){
+        if(req.body.name === "" || req.body.amount === "" || req.body.bankIDBank === "" || req.body.currencyTypeIDCurrencyType === ""){
           name = "";
-          description = "";
           amount="";
           bankIDBank="";
           currencyTypeIDCurrencyType="";
