@@ -39,13 +39,13 @@ const BudgetDetails = db.budgetDetails;
                 (async () => {
                     let sum;
                     if(response[0].balance === null){
-                        sum = 0 + req.body.amount;
+                        sum = 0 + parseFloat(req.body.amount);
                     }else{
                       if(req.body.option == 1){
-                        sum = response[0].balance + req.body.amount;
+                        sum = parseFloat(response[0].balance) + parseFloat(req.body.amount);
                       }
                       if(req.body.option == 2){
-                        sum = response[0].balance - req.body.amount;
+                        sum = parseFloat(response[0].balance) - parseFloat(req.body.amount);
                       }                     
                         
                     }
