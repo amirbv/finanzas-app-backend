@@ -1,32 +1,17 @@
-# finanzas-app-backend
+# Finanzy - Backend
 
+## Backend para la Aplicación móvil para el manejo de las finanzas y de los presupuestos personales
 
-## POST 
-"/api/auth/signup" : { fullName, email, password, city, stateIDStates }
+Realizado con Node.js, express y MySql como motor de base de datos
 
-"/api/wallets/": { name, description, amount, bankIDBank, userIDUsers }
+## Desarrolladores
 
-## PUT
-"/api/wallets/update/:id": { req.params.id, name, description, amount, bankIDBank, userIDUsers }
+Amir Bastidas
 
-## DELETE
-"/api/wallets/delete/:id": { req.params.id }
+Raul Rivero
 
-# INICIO DE SESION USUARIO COMUN
+Julio Chacin
 
-## POST
-"/api/auth/signin" : { email, password }
+## Tutor Académico
 
-# INICIO DE SESION USUARIO ADMINISTRADOR
-
-## POST
-"/api/auth/signin/admin" : { email, password }
-
-
-
-# RUTAS DISPONIBLES PARA ADMINISTRADORES
-
-## GET
-"/api/users/" : { Devuelve JSON de todos los usuarios }
-
-"/api/wallets/" : { Devuelve JSON de todas las carteras}
+Ing. Andres Medina
