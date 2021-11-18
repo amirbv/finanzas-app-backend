@@ -137,7 +137,7 @@ const Movements = db.movements;
                 try {
                   let result = amount - findWallet[0].amount
                   await db.sequelize.query(`
-                    INSERT INTO movements(userIDUsers, title, optionIDOptions, movementTypeIDMovementType, amount, date, walletIDWallets, conversionRateIDConversionRate, conversionAmount) VALUES (${dtoken.id},"Monto de modenero modificado",1,10,${result}, NOW(),${IDWallet},1,${result})
+                    INSERT INTO movements(userIDUsers, title, optionIDOptions, movementTypeIDMovementType, amount, date, walletIDWallets, conversionRateIDConversionRate, conversionAmount) VALUES (${dtoken.id},"Monto de monedero modificado",1,10,${result}, NOW(),${IDWallet},1,${result})
                 `, { type: db.sequelize.QueryTypes.INSERT });      
                   res.status(200).send({message: "Monedero actualizado con eso"})
                 
@@ -151,7 +151,7 @@ const Movements = db.movements;
                 try {
                   let result = amount - findWallet[0].amount
                   await db.sequelize.query(`
-                    INSERT INTO movements(userIDUsers, title, optionIDOptions, movementTypeIDMovementType, amount, date, walletIDWallets, conversionRateIDConversionRate, conversionAmount) VALUES (${dtoken.id},"Monto de modenero modificado",2,11,${result}, NOW(),${IDWallet},1,${result})
+                    INSERT INTO movements(userIDUsers, title, optionIDOptions, movementTypeIDMovementType, amount, date, walletIDWallets, conversionRateIDConversionRate, conversionAmount) VALUES (${dtoken.id},"Monto de monedero modificado",2,11,${result}, NOW(),${IDWallet},1,${result})
                 `, { type: db.sequelize.QueryTypes.INSERT });      
                   res.status(200).send({message: "Monedero actualizado con eso"})
                 
